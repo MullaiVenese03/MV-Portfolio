@@ -13,15 +13,20 @@ const NotFound = lazy(() =>
   import("./pages/NotFound").then((m) => ({ default: m.NotFound })),
 );
 
-export const router = createBrowserRouter([
+export const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      Component: RootLayout,
+      children: [
+        { index: true, Component: Home },
+        { path: "projects", Component: ProjectsPage },
+        { path: "projects/:slug", Component: ProjectDetail },
+        { path: "*", Component: NotFound },
+      ],
+    },
+  ],
   {
-    path: "/",
-    Component: RootLayout,
-    children: [
-      { index: true, Component: Home },
-      { path: "projects", Component: ProjectsPage },
-      { path: "projects/:slug", Component: ProjectDetail },
-      { path: "*", Component: NotFound },
-    ],
-  },
-]);
+    basename: import.meta.env.BASE_URL,
+  }
+);

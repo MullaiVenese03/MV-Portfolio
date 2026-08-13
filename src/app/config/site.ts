@@ -1,7 +1,7 @@
 /** Site-wide configuration — override VITE_SITE_URL at build time for production */
 export const SITE_URL =
   (import.meta.env.VITE_SITE_URL as string | undefined)?.replace(/\/$/, "") ||
-  "https://mullaivenese.dev";
+  "https://MullaiVenese03.github.io/MV-Portfolio";
 
 export const SITE = {
   name: "Mullai Venese",
