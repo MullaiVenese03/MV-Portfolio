@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import { ArrowLeft, Home } from "lucide-react";
 import { PAGE_META, SITE } from "../config/site";
 import { usePageMeta } from "../hooks/usePageMeta";

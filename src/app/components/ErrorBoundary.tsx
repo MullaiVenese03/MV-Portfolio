@@ -1,5 +1,5 @@
 import { Component, type ErrorInfo, type ReactNode } from "react";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import { FONT, themeVars } from "../theme";
 
 type Props = { children: ReactNode };

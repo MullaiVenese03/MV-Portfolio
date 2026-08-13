@@ -1,6 +1,6 @@
 import { ArrowUpRight, ExternalLink, Github } from "lucide-react";
 import { motion } from "motion/react";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import { projects as allProjects } from "../data/projects";
 import { badgeStyle, FONT, FONT_DISPLAY, MOTION_EASE, themeVars, TIMING } from "../theme";
 

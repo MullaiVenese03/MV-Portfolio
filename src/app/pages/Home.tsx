@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import { useOutletContext } from "react-router";
+import { useOutletContext } from "react-router-dom";
 import { Hero } from "../components/Hero";
 import { PersonStructuredData, WebSiteStructuredData } from "../components/StructuredData";
 import { PAGE_META, SITE } from "../config/site";

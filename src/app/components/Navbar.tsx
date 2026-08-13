@@ -1,7 +1,7 @@
 import { useState, useEffect, useId, useCallback, type MouseEvent } from "react";
 import { motion } from "motion/react";
 import { Moon, Sun, Menu, X } from "lucide-react";
-import { useLocation, useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router-dom";
 import mvLogo from "../../imports/MV-Logo.svg";
 import { navSections } from "../data/navigation";
 import { useScrollSpy } from "../hooks/useScrollSpy";

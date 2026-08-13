@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
 import { projects, categories, type ProjectCategory } from "../data/projects";

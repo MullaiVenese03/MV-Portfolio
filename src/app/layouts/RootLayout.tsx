@@ -1,5 +1,5 @@
 import { Suspense, useCallback, useEffect, useRef, useState } from "react";
-import { Outlet, useLocation } from "react-router";
+import { Outlet, useLocation } from "react-router-dom";
 import { AnimatePresence } from "motion/react";
 import { ReactLenis } from "lenis/react";
 import { SignatureIntro } from "../components/SignatureIntro";
