@@ -234,6 +234,3 @@ Front-End Developer & UI/UX Designer
 ## License
 
 No explicit license has currently been specified for this repository. All rights reserved.
-#   M V - P o r t f o l i o 
- 
- 
