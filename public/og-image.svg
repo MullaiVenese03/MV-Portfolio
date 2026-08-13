@@ -1,0 +1,10 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mullai Venese Portfolio">
+  <rect width="1200" height="630" fill="#F8FAFC"/>
+  <rect x="80" y="80" width="1040" height="470" rx="32" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="2"/>
+  <g transform="translate(120, 200) scale(2.2)">
+    <path d="M65.2974 2.29578C68.4104 -0.76526 73.4026 -0.76526 76.5156 2.29578L96.8284 22.2698C100.016 25.4046 100.016 30.5436 96.8284 33.6783L55.1189 74.6922C52.006 77.7533 47.0137 77.7533 43.9007 74.6922L2.39115 33.8749C-0.796726 30.7402 -0.796724 25.6012 2.39115 22.4665L22.7684 2.42908C25.8814 -0.631968 30.8736 -0.63197 33.9866 2.42908L49.5743 17.7567L39.5905 27.5741L28.3775 16.5481L16.5578 28.1707L27.7708 39.1967L37.7546 49.014L49.5098 60.5732L61.3296 48.9506L71.3133 39.1333L82.6618 27.9741L70.9065 16.4148L59.5581 27.5741L49.5743 17.7567L65.2974 2.29578Z" fill="#2563EB"/>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M39.5905 27.5741L49.5743 17.7568L59.5581 27.5741L49.5743 37.3914L39.5905 27.5741Z" fill="#0EA5E9"/>
+  </g>
+  <text x="380" y="280" fill="#0F172A" font-family="Arial, sans-serif" font-size="64" font-weight="800">Mullai Venese</text>
+  <text x="380" y="350" fill="#2563EB" font-family="Arial, sans-serif" font-size="32" font-weight="600">Front-End Developer &amp; UI/UX Designer</text>
+</svg>

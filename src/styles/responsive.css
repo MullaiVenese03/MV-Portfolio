@@ -1,0 +1,169 @@
+/* Responsive layout refinements for tablet, ultrawide, and 4K */
+
+:root {
+  --mv-page-gutter: clamp(1rem, 2.5vw, 2.5rem);
+  --mv-content-max: min(1400px, calc(100vw - var(--mv-page-gutter) * 2));
+}
+
+/* ─── Global overflow containment ─────────────────────────────────────────── */
+html {
+  overflow-x: clip;
+  /* Prevent layout-shift from scrollbar appearing / disappearing */
+  scrollbar-gutter: stable;
+}
+
+body {
+  overflow-x: clip;
+  /* Ensure body never escapes html's clipping */
+  max-width: 100vw;
+}
+
+/* Safe area for notched mobile devices */
+@supports (padding: max(0px)) {
+  .safe-x {
+    padding-left: max(var(--mv-page-gutter), env(safe-area-inset-left));
+    padding-right: max(var(--mv-page-gutter), env(safe-area-inset-right));
+  }
+}
+
+/* Prevent horizontal overflow on small screens */
+img,
+video,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ─── Footer "LET'S TALK" heading ─────────────────────────────────────────── */
+/*
+  The heading uses `whitespace-nowrap` inline. We override its font-size
+  at small breakpoints so it never causes horizontal scroll.
+  We use a CSS variable trick: target the button directly inside .footer-talk-wrap.
+  Since the element uses inline style, we need a class hook on the parent or
+  override via the button selector inside the footer motion div.
+*/
+footer .footer-talk-btn {
+  /* Allow text to wrap if viewport is extremely narrow */
+  white-space: normal;
+  word-break: break-word;
+  text-align: center;
+}
+
+/* ─── Hero PORTFOLIO background word ──────────────────────────────────────── */
+/* Already uses clamp(10vw, 14.5vw, 230px) so it stays within viewport */
+/* Just ensure its parent section clips it cleanly */
+#home {
+  overflow-x: clip;
+}
+
+/* ─── Section vertical rhythm — tighten on small screens ─────────────────── */
+@media (max-width: 639px) {
+  /* All major sections get reduced vertical padding on mobile */
+  #about,
+  #skills,
+  #projects,
+  #services,
+  #timeline,
+  #contact {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  /* Timeline — tighten the left offset on very small screens */
+  /* The dot is at left-6 (1.5rem) and items have pl-16 (4rem) */
+  /* This is fine down to 320px — no change needed */
+
+  /* About image — prevent 260px min from overflowing on 320px + 24px*2 padding */
+  /* 320 - 48px gutter = 272px available — the image fits at 260px min */
+  /* But the absolute signature image uses left: -40%, bottom: -10% */
+  /* It's decorative (aria-hidden equivalent), so clip is acceptable */
+}
+
+/* ─── Contact form — full width on mobile ─────────────────────────────────── */
+@media (max-width: 639px) {
+  /* Name + Email 2-col grid collapses to 1 col (already done via sm: prefix) */
+  /* Form card padding — reduce from p-8 (2rem) to p-5 on very small screens */
+  .contact-form-card {
+    padding: 1.25rem;
+  }
+}
+
+/* ─── Ultrawide & 4K — keep content centered without stretching layout ────── */
+@media (min-width: 1920px) {
+  :root {
+    --mv-content-max: 1400px;
+  }
+}
+
+@media (min-width: 2560px) {
+  html {
+    font-size: 17px;
+  }
+}
+
+/* ─── Improve tap targets on touch devices ────────────────────────────────── */
+@media (pointer: coarse) {
+  button,
+  a[role="button"],
+  nav a {
+    min-height: 44px;
+  }
+}
+
+/* ─── Navbar pill container — stays within 95vw already via inline style ─── */
+/* Nothing extra needed; the pill is `min(1200px, 95vw)` */
+
+/* ─── Projects grid — 1-col on mobile, 2-col on tablet, 3-col on desktop ─── */
+/* Already correct via Tailwind classes. */
+
+/* ─── Services grid — 1-col on mobile, 3-col on md+ ─────────────────────── */
+/* Already correct via Tailwind classes. */
+
+/* ─── 3D Floor PORTFOLIO Typography ───────────────────────────────────────── */
+
+/* Contain overflow from the rotated plane */
+#home {
+  overflow-x: clip;
+  overflow-y: clip;
+}
+
+/* Mobile: shallower tilt so the word fits the smaller viewport height */
+@media (max-width: 639px) {
+  .portfolio-floor-plane {
+    transform: rotateX(40deg) translateZ(-2px) !important;
+  }
+}
+
+/* Tablet */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .portfolio-floor-plane {
+    transform: rotateX(45deg) translateZ(-2px) !important;
+  }
+}
+
+/* Large desktop — slightly steeper for more dramatic recession */
+@media (min-width: 1440px) {
+  .portfolio-floor-plane {
+    transform: rotateX(52deg) translateZ(-2px) !important;
+  }
+}
+
+/* Disable 3D perspective on reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-floor-plane {
+    transform: none !important;
+    transform-style: flat !important;
+  }
+  .portfolio-floor-word {
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
+  }
+}
+
+/* ─── 3D Skills Gallery ────────────────────────────────────────────────────── */
+/*
+  All perspective, sizing, and speed values are managed imperatively by the
+  Skills component's single rAF loop via cfgRef / geomRef. No CSS overrides
+  are needed here — they would compete with the JS-controlled values.
+*/
+

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <meta
+      name="description"
+      content="Portfolio of Mullai Venese — Front-End Developer and UI/UX Designer specializing in web development, product design, branding, and digital experiences."
+    />
+    <meta name="author" content="Mullai Venese" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#2563EB" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#3B82F6" media="(prefers-color-scheme: dark)" />
+
+    <title>Mullai Venese | Front-End Developer &amp; UI/UX Designer</title>
+
+    <link rel="canonical" href="https://mullaivenese.dev/" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.svg" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="msapplication-config" content="/browserconfig.xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Mullai Venese" />
+    <meta property="og:title" content="Mullai Venese | Front-End Developer &amp; UI/UX Designer" />
+    <meta
+      property="og:description"
+      content="Portfolio of Mullai Venese — Front-End Developer and UI/UX Designer specializing in web development, product design, branding, and digital experiences."
+    />
+    <meta property="og:url" content="https://mullaivenese.dev/" />
+    <meta property="og:image" content="https://mullaivenese.dev/og-image.svg" />
+    <meta property="og:locale" content="en_US" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Mullai Venese | Front-End Developer &amp; UI/UX Designer" />
+    <meta
+      name="twitter:description"
+      content="Portfolio of Mullai Venese — Front-End Developer and UI/UX Designer."
+    />
+    <meta name="twitter:image" content="https://mullaivenese.dev/og-image.svg" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem("mv-theme");
+          var isDark = stored === "dark";
+          document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
+          document.documentElement.style.colorScheme = isDark ? "dark" : "light";
+          document.documentElement.style.backgroundColor = isDark ? "#0C0C0E" : "#F8FAFC";
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
