@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://mullaivenese.dev/sitemap.xml
+Sitemap: https://mullaivenese03.github.io/MV-Portfolio/sitemap.xml

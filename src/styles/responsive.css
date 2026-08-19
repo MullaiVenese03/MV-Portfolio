@@ -56,7 +56,7 @@ footer .footer-talk-btn {
   overflow-x: clip;
 }
 
-/* ─── Section vertical rhythm — tighten on small screens ─────────────────── */
+/* ─── Section vertical rhythm - tighten on small screens ─────────────────── */
 @media (max-width: 639px) {
   /* All major sections get reduced vertical padding on mobile */
   #about,
@@ -69,26 +69,26 @@ footer .footer-talk-btn {
     padding-bottom: 4rem;
   }
 
-  /* Timeline — tighten the left offset on very small screens */
+  /* Timeline - tighten the left offset on very small screens */
   /* The dot is at left-6 (1.5rem) and items have pl-16 (4rem) */
-  /* This is fine down to 320px — no change needed */
+  /* This is fine down to 320px - no change needed */
 
-  /* About image — prevent 260px min from overflowing on 320px + 24px*2 padding */
-  /* 320 - 48px gutter = 272px available — the image fits at 260px min */
+  /* About image - prevent 260px min from overflowing on 320px + 24px*2 padding */
+  /* 320 - 48px gutter = 272px available - the image fits at 260px min */
   /* But the absolute signature image uses left: -40%, bottom: -10% */
   /* It's decorative (aria-hidden equivalent), so clip is acceptable */
 }
 
-/* ─── Contact form — full width on mobile ─────────────────────────────────── */
+/* ─── Contact form - full width on mobile ─────────────────────────────────── */
 @media (max-width: 639px) {
   /* Name + Email 2-col grid collapses to 1 col (already done via sm: prefix) */
-  /* Form card padding — reduce from p-8 (2rem) to p-5 on very small screens */
+  /* Form card padding - reduce from p-8 (2rem) to p-5 on very small screens */
   .contact-form-card {
     padding: 1.25rem;
   }
 }
 
-/* ─── Ultrawide & 4K — keep content centered without stretching layout ────── */
+/* ─── Ultrawide & 4K - keep content centered without stretching layout ────── */
 @media (min-width: 1920px) {
   :root {
     --mv-content-max: 1400px;
@@ -110,13 +110,13 @@ footer .footer-talk-btn {
   }
 }
 
-/* ─── Navbar pill container — stays within 95vw already via inline style ─── */
+/* ─── Navbar pill container - stays within 95vw already via inline style ─── */
 /* Nothing extra needed; the pill is `min(1200px, 95vw)` */
 
-/* ─── Projects grid — 1-col on mobile, 2-col on tablet, 3-col on desktop ─── */
+/* ─── Projects grid - 1-col on mobile, 2-col on tablet, 3-col on desktop ─── */
 /* Already correct via Tailwind classes. */
 
-/* ─── Services grid — 1-col on mobile, 3-col on md+ ─────────────────────── */
+/* ─── Services grid - 1-col on mobile, 3-col on md+ ─────────────────────── */
 /* Already correct via Tailwind classes. */
 
 /* ─── 3D Floor PORTFOLIO Typography ───────────────────────────────────────── */
@@ -141,7 +141,7 @@ footer .footer-talk-btn {
   }
 }
 
-/* Large desktop — slightly steeper for more dramatic recession */
+/* Large desktop - slightly steeper for more dramatic recession */
 @media (min-width: 1440px) {
   .portfolio-floor-plane {
     transform: rotateX(52deg) translateZ(-2px) !important;
@@ -164,6 +164,6 @@ footer .footer-talk-btn {
 /*
   All perspective, sizing, and speed values are managed imperatively by the
   Skills component's single rAF loop via cfgRef / geomRef. No CSS overrides
-  are needed here — they would compete with the JS-controlled values.
+  are needed here - they would compete with the JS-controlled values.
 */
 

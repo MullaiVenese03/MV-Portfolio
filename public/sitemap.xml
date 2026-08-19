@@ -1,42 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://mullaivenese.dev/</loc>
+    <loc>https://mullaivenese03.github.io/MV-Portfolio/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://mullaivenese.dev/projects</loc>
+    <loc>https://mullaivenese03.github.io/MV-Portfolio/projects</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://mullaivenese.dev/projects/authvault</loc>
+    <loc>https://mullaivenese03.github.io/MV-Portfolio/projects/nebulasafetech-landing-page</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mullaivenese.dev/projects/aether-ui</loc>
+    <loc>https://mullaivenese03.github.io/MV-Portfolio/projects/nebulasafetech-website</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mullaivenese.dev/projects/library-management</loc>
+    <loc>https://mullaivenese03.github.io/MV-Portfolio/projects/nex-logo</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mullaivenese.dev/projects/todo-app</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://mullaivenese.dev/projects/lumen-brand</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://mullaivenese.dev/projects/stride-marketing</loc>
+    <loc>https://mullaivenese03.github.io/MV-Portfolio/projects/nebulasafetech-logo</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

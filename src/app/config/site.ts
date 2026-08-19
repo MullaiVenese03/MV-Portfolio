@@ -1,13 +1,13 @@
-/** Site-wide configuration — override VITE_SITE_URL at build time for production */
+/** Site-wide configuration - override VITE_SITE_URL at build time for production */
 export const SITE_URL =
   (import.meta.env.VITE_SITE_URL as string | undefined)?.replace(/\/$/, "") ||
-  "https://MullaiVenese03.github.io/MV-Portfolio";
+  "https://mullaivenese03.github.io/MV-Portfolio";
 
 export const SITE = {
   name: "Mullai Venese",
   title: "Mullai Venese | Front-End Developer & UI/UX Designer",
   description:
-    "Portfolio of Mullai Venese — Front-End Developer and UI/UX Designer specializing in web development, product design, branding, and digital experiences.",
+    "Portfolio of Mullai Venese - Front-End Developer and UI/UX Designer specializing in web development, product design, branding, and digital experiences.",
   locale: "en_US",
   author: "Mullai Venese",
   email: "mullaivenesep@gmail.com",
@@ -41,6 +41,21 @@ export const PAGE_META = {
 } as const;
 
 export function absoluteUrl(path: string): string {
-  if (path.startsWith("http")) return path;
-  return `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`;
+  if (path.startsWith("http://") || path.startsWith("https://")) return path;
+
+  const base = (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
+  let cleanPath = path.startsWith("/") ? path : `/${path}`;
+
+  if (base && cleanPath.startsWith(base)) {
+    cleanPath = cleanPath.slice(base.length);
+    if (!cleanPath.startsWith("/")) cleanPath = `/${cleanPath}`;
+  }
+
+  const siteUrlClean = SITE_URL.replace(/\/$/, "");
+  const rootUrl = base && siteUrlClean.endsWith(base)
+    ? siteUrlClean.slice(0, -base.length)
+    : siteUrlClean;
+
+  const finalPath = `${base}${cleanPath === "/" ? (base ? "/" : "") : cleanPath}`;
+  return `${rootUrl}${finalPath}`;
 }

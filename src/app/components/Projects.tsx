@@ -73,13 +73,12 @@ export function Projects() {
               <div className="relative h-48 overflow-hidden">
                 <img
                   src={project.img}
-                  alt={project.title}
+                  alt={`Preview cover of ${project.title} - ${project.category}`}
                   loading="lazy"
                   decoding="async"
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.45) 0%, transparent 60%)" }} />
-                <div className="absolute top-4 right-4 w-3 h-3 rounded-full" style={{ background: project.accent, boxShadow: `0 0 10px ${project.accent}` }} />
               </div>
 
               <div className="p-6 flex flex-col gap-3 flex-1">

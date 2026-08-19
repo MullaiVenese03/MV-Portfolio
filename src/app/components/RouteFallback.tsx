@@ -1,6 +1,6 @@
 import { themeVars } from "../theme";
 
-/** Minimal route loading state — matches page background, no layout shift */
+/** Minimal route loading state - matches page background, no layout shift */
 export function RouteFallback() {
   return (
     <div

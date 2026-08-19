@@ -16,7 +16,7 @@ const ENTRANCE = {
   image: { delay: 0.22, duration: 0.85 },
 } as const;
 
-// Premium cinematic ease — expo-style for organic deceleration
+// Premium cinematic ease - expo-style for organic deceleration
 const EASE_OUT_EXPO: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 interface HeroProps {
@@ -72,7 +72,7 @@ export function Hero({ heroReady = false }: HeroProps) {
       aria-labelledby="hero-heading"
     >
       {/*
-        ── Layer 2: PORTFOLIO — 3D Floor Typography ────────────────────────
+        ── Layer 2: PORTFOLIO - 3D Floor Typography ────────────────────────
         The word appears to lie on a perspective floor plane, receding into
         the distance. The nearest portion faces the viewer; the top edge
         recedes away. z-index: 1 (behind all content layers).
@@ -93,12 +93,12 @@ export function Hero({ heroReady = false }: HeroProps) {
           justifyContent: "center",
           alignItems: "flex-end",
           overflow: "hidden",
-          // Perspective container — the actual 3D stage
+          // Perspective container - the actual 3D stage
           perspective: "clamp(320px, 45vw, 680px)",
           perspectiveOrigin: "50% 100%",
         }}
       >
-        {/* 3D floor plane — tilted rotateX away from viewer */}
+        {/* 3D floor plane - tilted rotateX away from viewer */}
         <div
           className="portfolio-floor-plane"
           style={{
@@ -115,20 +115,20 @@ export function Hero({ heroReady = false }: HeroProps) {
           <span
             className="portfolio-floor-word"
             style={{
-              fontFamily:    FONT_DISPLAY,
-              // Intrinsically fluid — scales with viewport so it never overflows
-              fontSize:      "clamp(8vw, 16vw, 260px)",
-              fontWeight:    400,
+              fontFamily: FONT_DISPLAY,
+              // Intrinsically fluid - scales with viewport so it never overflows
+              fontSize: "clamp(8vw, 16vw, 260px)",
+              fontWeight: 400,
               letterSpacing: "0.18em",
-              lineHeight:    1,
-              whiteSpace:    "nowrap",
-              color:         c.heading,
-              opacity:       "var(--mv-portfolio-word-opacity, 0.06)",
+              lineHeight: 1,
+              whiteSpace: "nowrap",
+              color: c.heading,
+              opacity: "var(--mv-portfolio-word-opacity, 0.06)",
               // Depth gradient: bottom (near) → brighter, top (far) → fades
               WebkitMaskImage: "linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.55) 50%, rgba(0,0,0,0.08) 100%)",
-              maskImage:       "linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.55) 50%, rgba(0,0,0,0.08) 100%)",
-              display:         "block",
-              maxWidth:        "100%",
+              maskImage: "linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.55) 50%, rgba(0,0,0,0.08) 100%)",
+              display: "block",
+              maxWidth: "100%",
             }}
           >
             PORTFOLIO
@@ -136,7 +136,7 @@ export function Hero({ heroReady = false }: HeroProps) {
         </div>
       </motion.div>
 
-      {/* Layer 3: Vertical editorial sidebar — absolute so it doesn't shift the grid */}
+      {/* Layer 3: Vertical editorial sidebar - absolute so it doesn't shift the grid */}
       <motion.aside
         style={{ opacity: sidebarOpacity, position: "absolute", left: 0, top: 0, bottom: 0, zIndex: 3 }}
         className="hidden xl:flex flex-col items-center shrink-0 w-16 py-10 pl-6"

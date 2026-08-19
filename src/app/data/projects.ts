@@ -1,12 +1,24 @@
 export type ProjectCategory =
   | "Web Development"
+  | "Frontend Development"
   | "UI/UX Design"
   | "Web Design"
+  | "Company Website"
   | "Logo Design";
+
+export type BentoSize = "featured" | "large" | "wide" | "tall" | "standard";
 
 export interface ProjectScreenshot {
   src: string;
   caption?: string;
+  size?: BentoSize;
+  objectFit?: "cover" | "contain";
+}
+
+export interface DesignSystem {
+  palette: { name: string; hex: string }[];
+  fonts: { name: string; usage: string }[];
+  tools: string[];
 }
 
 export interface DevProjectDetails {
@@ -14,32 +26,18 @@ export interface DevProjectDetails {
   overview: string;
   problem: string;
   goals: string[];
-  research: string;
-  designProcess: string;
-  developmentProcess: string;
+  role?: string;
+  research?: string;
+  designProcess?: string;
+  developmentProcess?: string;
   techStack: string[];
   features: string[];
+  uiUxDecisions?: string[];
   challenges: string[];
   solutions: string[];
   learnings: string[];
   results: string[];
-}
-
-export interface CaseStudyDetails {
-  kind: "case-study";
-  brief: string;
-  clientRequirements: string[];
-  research: string;
-  wireframes: string;
-  designExploration: string;
-  designDecisions: string[];
-  colorSystem: { name: string; hex: string }[];
-  typography: { name: string; usage: string }[];
-  components: string[];
-  finalDesigns: string;
-  challenges: string[];
-  learnings: string[];
-  finalOutcome: string;
+  designSystem?: DesignSystem;
 }
 
 export interface Project {
@@ -53,248 +51,415 @@ export interface Project {
   repoUrl?: string;
   liveUrl?: string;
   gallery: ProjectScreenshot[];
-  details: DevProjectDetails | CaseStudyDetails;
+  details: DevProjectDetails;
 }
 
 export const categories: ("All" | ProjectCategory)[] = [
   "All",
-  "Web Development",
-  "UI/UX Design",
-  "Web Design",
+  "Frontend Development",
+  "Company Website",
   "Logo Design",
 ];
 
-const dev = (
-  overview: string,
-  extras: Partial<DevProjectDetails> = {},
-): DevProjectDetails => ({
-  kind: "dev",
-  overview,
-  problem:
-    "Existing tools in this space were fragmented, hard to set up, and lacked a polished UX for day-to-day use.",
-  goals: [
-    "Deliver a production-grade experience",
-    "Keep onboarding under two minutes",
-    "Make the core flow feel instant",
-  ],
-  research:
-    "Interviewed 8 target users, audited 5 competing products, and mapped a friction journey to identify the biggest UX gaps.",
-  designProcess:
-    "Started with low-fidelity flows, iterated on high-fidelity Figma prototypes, and pressure-tested the UI with two rounds of usability sessions.",
-  developmentProcess:
-    "Built incrementally with a feature-flagged trunk, paired typed APIs with generated clients, and shipped behind a staging environment first.",
-  techStack: ["React", "TypeScript", "Node.js", "PostgreSQL", "Tailwind"],
-  features: [
-    "Polished onboarding flow",
-    "Realtime dashboard",
-    "Role-based access control",
-    "Comprehensive audit log",
-  ],
-  challenges: [
-    "Scaling realtime updates beyond the prototype load",
-    "Keeping the UI consistent across breakpoints",
-  ],
-  solutions: [
-    "Introduced a pub/sub layer with backpressure",
-    "Built a shared design-system primitive set",
-  ],
-  learnings: [
-    "Investing in DX upfront paid back tenfold",
-    "Real users surfaced bugs no test suite could",
-  ],
-  results: [
-    "Cut time-to-first-value by 62%",
-    "Hit 99.9% uptime since launch",
-  ],
-  ...extras,
-});
-
-const caseStudy = (
-  brief: string,
-  extras: Partial<CaseStudyDetails> = {},
-): CaseStudyDetails => ({
-  kind: "case-study",
-  brief,
-  clientRequirements: [
-    "Modern, premium visual identity",
-    "Accessible across devices",
-    "Consistent design system",
-  ],
-  research:
-    "Audited the existing brand, benchmarked against 6 competitors, and mapped the audience's aesthetic preferences.",
-  wireframes:
-    "Started with grayscale wireframes to nail hierarchy and flow before introducing any color or imagery.",
-  designExploration:
-    "Explored three distinct visual directions ranging from editorial to product-led, then refined the strongest into the final system.",
-  designDecisions: [
-    "Use generous whitespace to feel premium",
-    "Anchor the brand around a single bold accent",
-    "Keep typography to two complementary families",
-  ],
-  colorSystem: [
-    { name: "Primary", hex: "#2563EB" },
-    { name: "Surface", hex: "#F8FAFC" },
-    { name: "Ink", hex: "#0F172A" },
-    { name: "Muted", hex: "#94A3B8" },
-  ],
-  typography: [
-    { name: "Plus Jakarta Sans", usage: "Headings and UI" },
-    { name: "Inter", usage: "Body copy" },
-  ],
-  components: ["Buttons", "Cards", "Navigation", "Forms", "Modal", "Tooltip"],
-  finalDesigns:
-    "A cohesive system spanning marketing, product, and brand surfaces with clear documentation for future contributors.",
-  challenges: [
-    "Balancing brand expression with usability constraints",
-    "Designing for both light and dark themes from day one",
-  ],
-  learnings: [
-    "Constraints make the system stronger",
-    "Shipping a token layer early unlocked downstream speed",
-  ],
-  finalOutcome:
-    "The new identity launched on time and lifted measurable engagement on the primary CTA by 38%.",
-  ...extras,
-});
-
-const sharedGallery = (img: string): ProjectScreenshot[] => [
-  { src: img, caption: "Hero view" },
-  {
-    src: "https://images.unsplash.com/photo-1551434678-e076c223a692?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1200",
-    caption: "Dashboard",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1200",
-    caption: "Detail view",
-  },
-];
+/** Prefix a public-folder path with Vite's runtime base URL so assets
+ *  resolve correctly on GitHub Pages (base: "/MV-Portfolio/").
+ *  e.g. p("/projects/foo/bar.png") → "/MV-Portfolio/projects/foo/bar.png"
+ */
+const p = (path: string) =>
+  `${import.meta.env.BASE_URL.replace(/\/$/, "")}${path}`;
 
 export const projects: Project[] = [
   {
-    slug: "authvault",
-    title: "AuthVault",
-    category: "Web Development",
+    slug: "nebulasafetech-landing-page",
+    title: "NebulaSafeTech Landing Page",
+    category: "Frontend Development",
     description:
-      "Comprehensive authentication & authorization system with MFA, OAuth, and RBAC.",
-    tags: ["React", "Node.js", "JWT", "PostgreSQL"],
-    img: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1200",
-    accent: "#2563EB",
-    repoUrl: "https://github.com/mullai/authvault",
-    liveUrl: "https://authvault.demo",
-    gallery: sharedGallery(
-      "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1200",
-    ),
-    details: dev(
-      "AuthVault is a drop-in identity layer that gives product teams enterprise-grade auth without months of plumbing.",
-      {
-        techStack: ["React", "Node.js", "TypeScript", "JWT", "PostgreSQL", "Redis"],
-        features: [
-          "Multi-factor authentication",
-          "OAuth 2.0 / OIDC providers",
-          "Granular role-based access control",
-          "Session management & device tracking",
-          "Audit logs",
+      "Official landing page for NebulaSafeTech featuring responsive service showcases, custom toast alerts, Cloudflare Turnstile bot protection, and zero-framework performance optimization.",
+    tags: ["HTML5", "CSS3", "JavaScript", "Cloudflare Turnstile", "Formspree", "GA4"],
+    img: p("/projects/nebulasafetech-landing-page/mockup.png"),
+    accent: "#3B82F6",
+    repoUrl: "https://github.com/MullaiVenese03/NST-Landing-Page",
+    liveUrl: "https://mullaivenese03.github.io/NST-Landing-Page",
+    gallery: [
+      { src: p("/projects/nebulasafetech-landing-page/mockup-device.png"), caption: "Laptop & Mobile Responsive UI", size: "featured", objectFit: "contain" },
+      { src: p("/projects/nebulasafetech-landing-page/home-overview.png"), caption: "Full Landing Page — Section Flow", size: "tall", objectFit: "contain" },
+      { src: p("/projects/nebulasafetech-landing-page/hero-section.png"), caption: "Hero Header & Brand Trust Marquee", size: "wide", objectFit: "cover" },
+      { src: p("/projects/nebulasafetech-landing-page/services-grid.png"), caption: "Cybersecurity & Web Dev Services", size: "standard", objectFit: "cover" },
+      { src: p("/projects/nebulasafetech-landing-page/testimonials.png"), caption: "Value Propositions & Testimonials", size: "standard", objectFit: "cover" },
+      { src: p("/projects/nebulasafetech-landing-page/contact-footer.png"), caption: "Contact Form & Footer", size: "wide", objectFit: "cover" },
+    ],
+    details: {
+      kind: "dev",
+      overview:
+        "NebulaSafeTech is a premier cybersecurity and digital solutions platform based in Hosur, Tamil Nadu. This project is the official static landing page built to present core services-such as Vulnerability Assessment and Penetration Testing (VAPT), Cloud & API Security, Mobile App Hardening, and EdTech Awareness programs-with zero framework bloat and maximum security.",
+      problem:
+        "Traditional marketing landing pages built with heavy JavaScript frameworks often suffer from slow initial loading, high memory overhead, and contact form vulnerability to automated spam bots.",
+      role:
+        "Frontend Developer & UI Designer - responsible for end-to-end architecture, responsive CSS layout, interactive DOM scripting, form security integration, and performance optimization.",
+      goals: [
+        "Achieve zero-framework lightning performance with pure HTML5, CSS3, and ES6+ JavaScript",
+        "Deliver a mobile-first responsive layout with dynamic scroll-spy navigation",
+        "Implement multi-layered contact form protection against automated bot submissions",
+        "Showcase institutional MoU collaborations and client testimonials in a continuous marquee",
+      ],
+      research:
+        "Audited competing cybersecurity and software agency sites, analyzed target user conversion paths, and defined a high-contrast dark aesthetic that highlights security authority.",
+      designProcess:
+        "Designed a cybersecurity-focused UI theme using high-contrast dark backgrounds, glowing accent indicators, custom typography (General Sans), card-based service matrices, and non-intrusive notification overlays.",
+      developmentProcess:
+        "Developed with zero external build dependencies using standard ES6+ JavaScript, custom CSS Flexbox/Grid, native IntersectionObserver APIs for active section tracking, and lightweight DOM manipulation for dynamic toast notifications.",
+      techStack: [
+        "HTML5",
+        "CSS3",
+        "JavaScript (ES6+)",
+        "Cloudflare Turnstile",
+        "Formspree",
+        "Google Analytics (GA4)",
+        "General Sans Font",
+      ],
+      features: [
+        "Pure Vanilla Tech Stack with zero framework overhead and lightweight execution",
+        "Dynamic responsive navigation with hamburger toggle and IntersectionObserver scroll-spy",
+        "Multi-layered form security featuring Content Security Policy (CSP) headers, Cloudflare Turnstile CAPTCHA, and client-side input sanitization",
+        "Custom DOM-rendered toast notification engine for instant form feedback",
+        "Infinite auto-scroll marquee for institutional MoU partners and clients",
+        "Full SEO setup with Open Graph meta, Twitter Cards, canonical links, favicons, and sitemap.xml",
+      ],
+      uiUxDecisions: [
+        "Adopted a dark cybersecurity aesthetic with high-contrast elements for brand authority",
+        "Used sticky header navigation with real-time section scroll-spy indicators",
+        "Implemented asynchronous toast alerts so users receive instant contact confirmation without leaving the page",
+        "Structured institutional logos in an infinite continuous marquee to build immediate social proof",
+      ],
+      challenges: [
+        "Eliminating contact form spam without degrading user experience through intrusive traditional CAPTCHAs",
+        "Maintaining accurate active nav link updates during fast scrolling without causing layout reflow lag",
+      ],
+      solutions: [
+        "Integrated Cloudflare Turnstile for silent, frictionless bot verification alongside Formspree backend processing",
+        "Leveraged native IntersectionObserver with configured rootMargins for smooth section detection",
+      ],
+      learnings: [
+        "Native browser APIs can replace framework dependencies while dramatically reducing bundle sizes and load times",
+        "Front-loading security controls (CSP headers, Turnstile, client sanitization) protects form endpoints effectively",
+      ],
+      results: [
+        "Delivered an ultra-fast, zero-dependency landing page with instant initial page load",
+        "Successfully established brand presence and captured client inquiries with zero bot spam",
+      ],
+      designSystem: {
+        palette: [
+          { name: "Deep Navy", hex: "#0A0F1E" },
+          { name: "Surface", hex: "#111827" },
+          { name: "Accent Blue", hex: "#2563EB" },
+          { name: "Muted Text", hex: "#6B7280" },
+          { name: "White", hex: "#F9FAFB" },
+        ],
+        fonts: [
+          { name: "General Sans", usage: "Headings, body & UI" },
+        ],
+        tools: [
+          "HTML5", "CSS3", "JavaScript (ES6+)",
+          "Cloudflare Turnstile", "Formspree", "Google Analytics (GA4)",
+          "Figma", "VS Code",
         ],
       },
-    ),
+    },
   },
   {
-    slug: "aether-ui",
-    title: "Aether UI",
-    category: "UI/UX Design",
+    slug: "nebulasafetech-website",
+    title: "NebulaSafeTech Website",
+    category: "Company Website",
     description:
-      "Modern design system and component library for enterprise-scale React applications.",
-    tags: ["Figma", "Design System", "React", "Tokens"],
-    img: "https://images.unsplash.com/photo-1561070791-2526d30994b5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1200",
+      "Production React 18 & TypeScript application for NebulaSafeTech featuring deep SPA routing, Sharp image optimization, Framer Motion animations, and multi-tier telemetry.",
+    tags: ["React", "TypeScript", "Vite", "Tailwind CSS", "Framer Motion", "React Router", "Formspree", "Sharp"],
+    img: p("/projects/nebulasafetech-website/cover.png"),
     accent: "#7C3AED",
-    liveUrl: "https://aether-ui.demo",
-    gallery: sharedGallery(
-      "https://images.unsplash.com/photo-1561070791-2526d30994b5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1200",
-    ),
-    details: caseStudy(
-      "Aether UI is the visual and component foundation for a B2B SaaS suite spanning four products.",
-      {
-        clientRequirements: [
-          "Single source of truth across 4 products",
-          "Light + dark themes",
-          "WCAG AA contrast minimum",
+    repoUrl: "https://github.com/MullaiVenese03/NST-Website",
+    liveUrl: "https://www.nebulasafetech.com",
+    gallery: [
+      { src: p("/projects/nebulasafetech-website/mockup.png"), caption: "Laptop & Mobile Responsive UI", size: "featured", objectFit: "contain" },
+      { src: p("/projects/nebulasafetech-website/website-image.png"), caption: "Full Website — Desktop & Mobile", size: "tall", objectFit: "contain" },
+      { src: p("/projects/nebulasafetech-website/hero-screenshot.png"), caption: "Hero — Cybersecurity SPA Homepage", size: "wide", objectFit: "cover" },
+      { src: p("/projects/nebulasafetech-website/slice-01.png"), caption: "Hero & About — Animated Stats", size: "standard", objectFit: "cover" },
+      { src: p("/projects/nebulasafetech-website/slice-02.png"), caption: "Services — Cybersecurity & Web Dev", size: "standard", objectFit: "cover" },
+      { src: p("/projects/nebulasafetech-website/slice-03.png"), caption: "Clients, EdTech & Footer", size: "standard", objectFit: "cover" },
+      { src: p("/projects/nebulasafetech-website/design-styles.png"), caption: "Design System — Typography & Colours", size: "wide", objectFit: "contain" },
+    ],
+    details: {
+      kind: "dev",
+      overview:
+        "The main production web application for NebulaSafeTech-a comprehensive cybersecurity and digital engineering firm based in Hosur, Tamil Nadu. Built on React 18, Vite, and Tailwind CSS, this web app provides dedicated service deep-dives, blog insights, institutional EdTech program details, and interactive quote requests.",
+      problem:
+        "As NebulaSafeTech expanded into institutional cybersecurity awareness workshops and specialized enterprise VAPT services, a static single-page layout could no longer support structured service detail pages, deep SPA routing, dynamic JSON-LD schemas, and comprehensive telemetry.",
+      role:
+        "Full-Stack Frontend Engineer - responsible for React component architecture, TypeScript typing, build-time asset optimization scripts (Sharp), SPA routing, SEO schemas, and multi-tier analytics integration.",
+      goals: [
+        "Build a scalable, type-safe React 18 SPA supporting deep routing across 8+ specialized page views",
+        "Automate build-time asset optimization to generate high-performance WebP and AVIF responsive srcsets",
+        "Implement structured JSON-LD schemas and SEO metadata for maximum search engine and AI discoverability",
+        "Deploy a non-duplicating multi-tier analytics telemetry architecture (GTM, GA4, Clarity, Cloudflare)",
+      ],
+      research:
+        "Evaluated enterprise B2B SaaS and cybersecurity web platforms to establish content hierarchy, user flow mapping for corporate vs academic clients, and accessibility standards.",
+      designProcess:
+        "Constructed a responsive design system using Tailwind CSS 4 utility tokens, custom neon gradient accents, interactive Framer Motion micro-animations, structured FAQ accordions, and dark mode contrast compliance.",
+      developmentProcess:
+        "Engineered with React 18, Vite 6, TypeScript (strict target), and React Router 7 with code-split lazy loading. Authored custom Node.js build scripts using Sharp to optimize public media assets into modern WebP/AVIF formats during compilation.",
+      techStack: [
+        "React 18",
+        "TypeScript",
+        "Vite 6",
+        "Tailwind CSS 4",
+        "React Router 7",
+        "Motion (Framer Motion)",
+        "react-helmet-async",
+        "Formspree",
+        "Lucide React",
+        "Sharp",
+        "GTM / GA4 / Clarity",
+      ],
+      features: [
+        "Code-split SPA routing spanning 8+ pages (Home, About, Services, Cybersecurity Detail, Web Dev Detail, UI/UX Detail, EdTech Training, Clients, Blog, Legal)",
+        "Build-time media engine using Sharp to generate 39+ responsive asset directories in WebP and AVIF formats",
+        "Interactive components including hero parallax, animated stat counters, FAQ accordions, custom dropdowns, and blog table-of-contents",
+        "Comprehensive SEO architecture with react-helmet-async, dynamic JSON-LD schemas, robots.txt crawler rules, and llms.txt context manifest",
+        "Multi-tier telemetry stack combining Google Tag Manager, GA4, Microsoft Clarity heatmaps, Cloudflare Web Analytics, and Vercel Speed Insights",
+        "Formspree React integration with client-side regex field validation and custom error formatting",
+      ],
+      uiUxDecisions: [
+        "Structured multi-route navigation separating corporate VAPT offerings from academic EdTech awareness initiatives",
+        "Integrated responsive picture srcsets to ensure crisp visual delivery on high-DPI displays without performance degradation",
+        "Designed clean interactive elements (accordions, tab controls, scroll-to-top buttons) with full keyboard accessibility",
+        "Used subtle motion animations to guide user focus without causing cognitive clutter",
+      ],
+      challenges: [
+        "Serving high-resolution media and dynamic graphics without triggering layout shifts (CLS) or slowing mobile load times",
+        "Preventing duplicate pageview telemetry events when navigating between code-split routes in a single-page app",
+      ],
+      solutions: [
+        "Created Node build scripts leveraging Sharp to generate multi-resolution WebP/AVIF images with predefined aspect ratios",
+        "Designed a custom useRouteAnalytics hook that listens to router location changes and pushes GTM events cleanly while skipping duplicate initial page load triggers",
+      ],
+      learnings: [
+        "Combining build-time automated optimization scripts with React lazy loading ensures high Web Vitals scores even for media-rich sites",
+        "Providing structured JSON-LD schemas and AI manifests (llms.txt) significantly improves search indexing and LLM reference accuracy",
+      ],
+      results: [
+        "Successfully launched production application on Vercel with high performance scores across desktop and mobile",
+        "Scalably handles multi-route user journeys for enterprise cybersecurity clients and academic workshop partners",
+      ],
+      designSystem: {
+        palette: [
+          { name: "White", hex: "#FFFFFF" },
+          { name: "Brand Blue", hex: "#015AAA" },
+          { name: "Dark Background", hex: "#0B0F19" },
         ],
-        colorSystem: [
-          { name: "Iris", hex: "#7C3AED" },
-          { name: "Mist", hex: "#F5F3FF" },
-          { name: "Ink", hex: "#1E1B4B" },
-          { name: "Cloud", hex: "#E0E7FF" },
+        fonts: [
+          { name: "Geist", usage: "Headings, body & UI" },
+        ],
+        tools: [
+          "React 18", "TypeScript", "Vite 6", "Tailwind CSS 4",
+          "Framer Motion", "React Router 7", "Sharp",
+          "GTM / GA4", "Microsoft Clarity", "Figma", "VS Code",
         ],
       },
-    ),
+    },
   },
   {
-    slug: "library-management",
-    title: "Library Management",
-    category: "Web Development",
-    description:
-      "Digital library platform with catalog management, borrowing system, and analytics.",
-    tags: ["Next.js", "MongoDB", "Tailwind", "REST"],
-    img: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1200",
-    accent: "#059669",
-    repoUrl: "https://github.com/mullai/library",
-    gallery: sharedGallery(
-      "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1200",
-    ),
-    details: dev(
-      "A modern digital library platform serving 12,000+ patrons with self-service borrowing and rich analytics.",
-    ),
-  },
-  {
-    slug: "todo-app",
-    title: "To-Do List App",
-    category: "Web Development",
-    description:
-      "Productivity app with smart categorization, priority queuing, and team collaboration.",
-    tags: ["React", "Redux", "Supabase", "PWA"],
-    img: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1200",
-    accent: "#0891B2",
-    repoUrl: "https://github.com/mullai/todo",
-    liveUrl: "https://todo.demo",
-    gallery: sharedGallery(
-      "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1200",
-    ),
-    details: dev(
-      "A focused productivity app that turns scattered to-dos into a calm, prioritized daily plan.",
-    ),
-  },
-  {
-    slug: "lumen-brand",
-    title: "Lumen Brand Identity",
+    slug: "nex-logo",
+    title: "NEX Logo",
     category: "Logo Design",
     description:
-      "Logo and brand identity system for a wellness startup, including marks, tokens, and guidelines.",
-    tags: ["Branding", "Logo", "Identity"],
-    img: "https://images.unsplash.com/photo-1626785774573-4b799315345d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1200",
-    accent: "#F59E0B",
-    gallery: sharedGallery(
-      "https://images.unsplash.com/photo-1626785774573-4b799315345d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1200",
-    ),
-    details: caseStudy(
-      "Lumen needed a wordmark and brand system that felt warm, premium, and timeless.",
-    ),
+      "Brand identity and logo design for NEX — a NebulaSafeTech cybersecurity product built around zero-trust access and encrypted file exchange. Features a keyhole-embedded 'X' mark across primary, secondary, submark, and monochrome variants.",
+    tags: ["Logo Design", "Brand Identity", "Figma", "Typography", "Colour System"],
+    img: p("/projects/nex-logo/cover.png"),
+    accent: "#2563EB",
+    gallery: [
+      { src: p("/projects/nex-logo/case-study.png"), caption: "NEX Brand Identity — Case Study Overview", size: "large", objectFit: "contain" },
+      { src: p("/projects/nex-logo/primary-colors.png"), caption: "Brand Colour Specification — Mirror Blue & Casual Navy", size: "tall", objectFit: "contain" },
+      { src: p("/projects/nex-logo/primary-logo.png"), caption: "Primary Logo — Light Background", size: "standard", objectFit: "contain" },
+      { src: p("/projects/nex-logo/primary-logo-dark.png"), caption: "Primary Logo — Dark Background", size: "standard", objectFit: "contain" },
+      { src: p("/projects/nex-logo/primary-logo-mono.png"), caption: "Primary Logo — Monochrome (Mirror Blue)", size: "standard", objectFit: "contain" },
+      { src: p("/projects/nex-logo/secondary-logo.png"), caption: "Secondary Logo — Light Background", size: "wide", objectFit: "contain" },
+      { src: p("/projects/nex-logo/secondary-logo-dark.png"), caption: "Secondary Logo — Dark Background", size: "wide", objectFit: "contain" },
+      { src: p("/projects/nex-logo/secondary-logo-mono.png"), caption: "Secondary Logo — Monochrome (Mirror Blue)", size: "standard", objectFit: "contain" },
+      { src: p("/projects/nex-logo/submark-logo.png"), caption: "Submark — Light Background", size: "standard", objectFit: "contain" },
+      { src: p("/projects/nex-logo/submark-logo-dark.png"), caption: "Submark — Dark Background", size: "standard", objectFit: "contain" },
+      { src: p("/projects/nex-logo/submark-logo-mono.png"), caption: "Submark — Monochrome (Mirror Blue)", size: "standard", objectFit: "contain" },
+      { src: p("/projects/nex-logo/favicon-logo.png"), caption: "Favicon & Social Media Icon", size: "standard", objectFit: "contain" },
+    ],
+    details: {
+      kind: "dev",
+      overview:
+        "NEX is a cybersecurity product developed by NebulaSafeTech that enables zero-trust file access and encrypted exchange — sharing nothing, yet accessing everything. This project covers the complete brand identity and logo system for NEX, delivering primary, secondary, submark, and monochrome logo variants with a strict two-colour brand palette and NEXA typography.",
+      problem:
+        "NEX required a distinct visual identity that immediately communicates its core promise: maximum security through zero-trust access. The mark needed to work across app icons, documentation, presentations, and marketing materials without losing legibility or brand authority.",
+      role:
+        "Brand Designer — responsible for concept development, logotype construction, iconographic submark design, colour system definition, and multi-variant asset production across light, dark, and monochrome contexts.",
+      goals: [
+        "Design a mark that encodes NEX's zero-trust and encrypted-exchange philosophy into the letterform itself",
+        "Produce a complete variant set covering primary, secondary, submark, light, dark, and monochrome versions",
+        "Establish a strict two-colour brand palette (Mirror Blue #2563EB and Casual Navy #0B0F19)",
+        "Ensure the logo system scales cleanly from 16×16 favicon to large-format print without detail loss",
+      ],
+      research:
+        "Analysed brand identities of leading cybersecurity and zero-trust access platforms to map visual conventions, then deliberately diverged — using the 'X' letterform as both a wordmark element and an icon embedding a shielded keyhole at its intersection.",
+      designProcess:
+        "Began with concept sketches exploring security metaphors, converging on the 'X + keyhole' motif that encodes exchange (the X) and access control (the keyhole) in a single mark. Iterated across weight, proportion, and submark crops before finalising the three-tier system: Primary (wordmark + tagline), Secondary (horizontal lockup), and Submark (icon-only).",
+      developmentProcess:
+        "All variants were constructed in Figma using vector paths with defined grid anchors, exported as optimised PNGs across three colour contexts (light, dark, monochrome) and as a square favicon at 512×512 for social and app usage.",
+      techStack: [
+        "Figma",
+        "Vector Design",
+        "Brand Strategy",
+        "Typography (NEXA)",
+        "Colour Theory",
+        "Export Optimization",
+      ],
+      features: [
+        "Three-tier logo system: Primary wordmark, Secondary horizontal lockup, and Submark icon",
+        "Twelve production-ready PNG exports across light, dark, and monochrome colour contexts",
+        "Keyhole-embedded 'X' mark encoding zero-trust access and encrypted exchange symbolism",
+        "NEXA typeface selected for its geometric authority and modern-secure aesthetic",
+        "Two-colour brand palette — Mirror Blue (#2563EB) and Casual Navy (#0B0F19) — documented with RGB, HEX, CMYK, HSV, and HSL values",
+        "Square favicon and social media icon variant cropped from the submark",
+      ],
+      uiUxDecisions: [
+        "Chose the letter 'X' as the hero form — immediately readable as 'NEX' while carrying iconographic weight on its own as the submark",
+        "Embedded a shielded keyhole at the X intersection to encode the core product concept without a separate icon element",
+        "Selected NEXA typeface for the wordmark to complement the angular geometry of the X icon",
+        "Constrained the palette to exactly two brand colours to ensure maximum recognition and reproduction fidelity across any medium",
+      ],
+      challenges: [
+        "Ensuring the keyhole detail at the centre of the X remained legible at small sizes such as 32px favicon",
+        "Balancing the visual weight between the 'NE' letterforms and the dominant blue 'X' icon across all three colour contexts",
+      ],
+      solutions: [
+        "Simplified the keyhole to a clean shield-slot shape without fine detail so it reads clearly at any scale",
+        "Adjusted stroke weights and letter spacing per variant to maintain optical balance across light, dark, and monochrome backgrounds",
+      ],
+      learnings: [
+        "A strong brand concept encoded in the mark itself — rather than applied through colour or styling — ensures the identity works in every context",
+        "Producing all variants systematically in Figma from a single master frame ensures consistency and accelerates future brand extension",
+      ],
+      results: [
+        "Delivered a complete 12-asset logo system ready for deployment across app, web, documentation, and marketing surfaces",
+        "Established a brand identity that clearly differentiates NEX from generic cybersecurity visual conventions while remaining professional and scalable",
+      ],
+      designSystem: {
+        palette: [
+          { name: "Mirror Blue", hex: "#2563EB" },
+          { name: "Casual Navy", hex: "#0B0F19" },
+          { name: "White", hex: "#FFFFFF" },
+        ],
+        fonts: [
+          { name: "NEXA", usage: "Wordmark & brand typography" },
+        ],
+        tools: [
+          "Figma", "Vector Design", "PNG Export",
+          "Brand Strategy", "Colour Theory",
+        ],
+      },
+    },
   },
   {
-    slug: "stride-marketing",
-    title: "Stride Marketing Site",
-    category: "Web Design",
+    slug: "nebulasafetech-logo",
+    title: "NebulaSafeTech Logo",
+    category: "Logo Design",
     description:
-      "Conversion-focused marketing site redesign for a fintech startup, built on a custom design system.",
-    tags: ["Web Design", "Marketing", "Figma"],
-    img: "https://images.unsplash.com/photo-1559028012-481c04fa702d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1200",
-    accent: "#10B981",
-    liveUrl: "https://stride.demo",
-    gallery: sharedGallery(
-      "https://images.unsplash.com/photo-1559028012-481c04fa702d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1200",
-    ),
-    details: caseStudy(
-      "Stride wanted a marketing site that would convert qualified visitors into trial signups without feeling pushy.",
-    ),
+      "Brand identity and logo design for NebulaSafeTech — featuring a geometric wolf-and-shield motif symbolizing vigilance, security, and digital innovation, complemented by the Overcame-Demo typeface and Endeavour Blue color palette.",
+    tags: ["Logo Design", "Brand Identity", "Figma", "Typography", "Vector Design"],
+    img: p("/projects/nst-logo/cover.png"),
+    accent: "#0056A7",
+    gallery: [
+      { src: p("/projects/nst-logo/case-study.png"), caption: "NebulaSafeTech Brand Identity — Case Study Overview", size: "large", objectFit: "contain" },
+      { src: p("/projects/nst-logo/primary-colors.png"), caption: "Brand Colour Specification — Endeavour Blue, Beyond Black & Full White", size: "tall", objectFit: "contain" },
+      { src: p("/projects/nst-logo/primary-logo-light.png"), caption: "Primary Logo with Tagline — Light Background", size: "standard", objectFit: "contain" },
+      { src: p("/projects/nst-logo/primary-logo-dark.png"), caption: "Primary Logo with Tagline — Dark Background", size: "standard", objectFit: "contain" },
+      { src: p("/projects/nst-logo/primary-logo-blue.png"), caption: "Primary Logo — Endeavour Blue Background", size: "standard", objectFit: "contain" },
+      { src: p("/projects/nst-logo/secondary-logo-light.png"), caption: "Secondary Horizontal Logo — Light Background", size: "wide", objectFit: "contain" },
+      { src: p("/projects/nst-logo/secondary-logo-dark.png"), caption: "Secondary Horizontal Logo — Dark Background", size: "wide", objectFit: "contain" },
+      { src: p("/projects/nst-logo/secondary-logo-blue.png"), caption: "Secondary Horizontal Logo — Endeavour Blue Background", size: "wide", objectFit: "contain" },
+      { src: p("/projects/nst-logo/secondary-wordmark-blue.png"), caption: "Wordmark Logo — Endeavour Blue Background", size: "standard", objectFit: "contain" },
+      { src: p("/projects/nst-logo/submark-badge.png"), caption: "Submark Emblem & Official Circular Seal", size: "standard", objectFit: "contain" },
+      { src: p("/projects/nst-logo/social-media-square.png"), caption: "Social Media Icon — Square Format (Light)", size: "standard", objectFit: "contain" },
+      { src: p("/projects/nst-logo/social-media-circle.png"), caption: "Social Media Icon — Circular Avatar (Endeavour Blue)", size: "standard", objectFit: "contain" },
+    ],
+    details: {
+      kind: "dev",
+      overview:
+        "NebulaSafeTech is a premier cybersecurity and digital solutions firm. This project represents the complete brand identity design for NebulaSafeTech, centering on a geometric wolf-head motif constructed from circuit-inspired lines and an inverted shield-triangle that communicates vigilance, intelligence, defense, and digital transformation.",
+      problem:
+        "NebulaSafeTech required a powerful, recognizable, and scalable brand identity that projects uncompromising cybersecurity authority while feeling modern, tech-forward, and adaptable across web platforms, physical badges, merchandise, corporate seals, and social media channels.",
+      role:
+        "Brand Designer & Visual Strategist — responsible for core concept development, geometric grid construction of the wolf mark, logotype selection and kerning, colour palette formulation, circular emblem design, and multi-format asset exports.",
+      goals: [
+        "Craft a distinctive wolf-head symbol embodying vigilance, intelligence, and fearless cybersecurity defense",
+        "Integrate circuit-inspired geometric lines and a triangular shield structure representing technology and stability",
+        "Establish a cohesive three-color brand palette: Endeavour Blue (#0056A7), Beyond Black (#030108), and Full White (#FFFFFF)",
+        "Design versatile variations including primary vertical lockups, secondary horizontal formats, a circular seal submark, and social media avatars",
+      ],
+      research:
+        "Audited visual identities across enterprise cybersecurity, defense contracting, and EdTech institutions. Identified that most brands rely on generic locks or shields. Diverged by fusing an organic metaphor of vigilance (the wolf) with precision angular vector geometry and circuitry.",
+      designProcess:
+        "Constructed the wolf mark on an equilateral triangle grid using sharp 45-degree and 90-degree vector intersections. Iterated on line weight optical consistency to ensure the nose, ears, and cheek facets remain distinct at both 16px favicon scale and large-format exhibition banners. Paired the mark with the futuristic Overcame-Demo typeface.",
+      developmentProcess:
+        "Engineered the entire vector brand asset system in Figma with precise stroke alignments. Exported high-resolution assets categorized by background theme (light, dark, monochrome, branded blue) and application type (primary lockup, horizontal lockup, wordmark, circular seal, square/circular social icons).",
+      techStack: [
+        "Figma",
+        "Vector Design",
+        "Brand Strategy",
+        "Typography (Overcame-Demo)",
+        "Colour Theory",
+        "Asset Optimization",
+      ],
+      features: [
+        "Geometric wolf symbol with integrated shield and circuit aesthetics",
+        "Complete multi-variant system: Primary, Secondary horizontal, Wordmark-only, Circular emblem, and Social avatars",
+        "Full background context compatibility: Light, Dark, Endeavour Blue, and Single Color",
+        "Endeavour Blue (#0056A7) brand color system with complete RGB, HEX, CMYK, HSV, and HSL specifications",
+        "Customized Overcame-Demo logotype with distinctive angular 'A' letterforms",
+        "Production-ready vector and high-resolution PNG exports for digital, print, and physical collateral",
+      ],
+      uiUxDecisions: [
+        "Constructed the wolf head from interlocking circuit vectors to immediately establish a connection to high-tech digital systems",
+        "Embedded an inverted triangle backdrop to represent stability, direction, and shield-like defense",
+        "Created a dedicated circular seal submark with star accents for official certificates, institutional MoUs, and academic workshop badges",
+        "Maintained strict high-contrast color pairings to ensure instant readability and WCAG compliance across dark and light interfaces",
+      ],
+      challenges: [
+        "Maintaining clean visual separation between intricate circuit-line facets when reducing the wolf mark to small avatar and favicon dimensions",
+        "Balancing the commanding visual presence of the wolf emblem with the extended typography of 'NEBULASAFETECH' in horizontal lockups",
+      ],
+      solutions: [
+        "Designed simplified single-color and circular emblem adaptations with adjusted stroke weights for small-scale applications",
+        "Calibrated letter-spacing and proportional sizing in the horizontal secondary logo to create balanced harmony between mark and wordmark",
+      ],
+      learnings: [
+        "A multi-layered symbol (wolf + shield + circuitry) provides rich visual storytelling that strengthens brand recall across both corporate and academic audiences",
+        "Providing pre-composed dark, light, and brand-color variants prevents improper brand asset usage across disparate marketing and development teams",
+      ],
+      results: [
+        "Successfully established the core visual identity adopted across all NebulaSafeTech digital properties, official communications, and workshop materials",
+        "Delivered a complete, scalable design system spanning 13 production-ready identity assets",
+      ],
+      designSystem: {
+        palette: [
+          { name: "Endeavour Blue", hex: "#0056A7" },
+          { name: "Beyond Black", hex: "#030108" },
+          { name: "Full White", hex: "#FFFFFF" },
+        ],
+        fonts: [
+          { name: "Overcame-Demo", usage: "Logotype & wordmark" },
+          { name: "Plus Jakarta Sans", usage: "Taglines & brand communications" },
+        ],
+        tools: [
+          "Figma", "Vector Design", "PNG Export",
+          "Brand Strategy", "Colour Theory",
+        ],
+      },
+    },
   },
 ];
 

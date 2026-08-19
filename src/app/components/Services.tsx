@@ -78,7 +78,7 @@ function CinematicServiceCard({
     <div
       className="relative z-10 flex flex-col h-full gap-4 sm:gap-5 p-6 sm:p-8 rounded-3xl min-h-[380px] sm:min-h-[420px] transition-all duration-300"
       style={{
-        /* 100% solid, fully opaque card background — ZERO bleed-through */
+        /* 100% solid, fully opaque card background - ZERO bleed-through */
         background: service.popular
           ? "var(--mv-accent-popular, #eff6ff)"
           : "var(--mv-card, #ffffff)",
@@ -225,7 +225,7 @@ export function Services() {
     >
       <div className={activeScrollJacking ? "services-sticky-viewport" : ""} style={{ background: c.sectionAlt }}>
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 pt-4 sm:pt-6 pb-8 sm:pb-12 w-full flex flex-col items-center justify-center min-h-screen">
-          {/* Section header — STRUCTURALLY STABLE at top */}
+          {/* Section header - STRUCTURALLY STABLE at top */}
           <motion.div
             className="flex flex-col items-center text-center shrink-0 mb-6 sm:mb-8 lg:mb-10 z-40 pointer-events-auto"
             initial={{ opacity: 0, y: 24 }}

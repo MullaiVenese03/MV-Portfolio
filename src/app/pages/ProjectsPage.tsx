@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "motion/react";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, ChevronRight } from "lucide-react";
 import { projects, categories, type ProjectCategory } from "../data/projects";
 import { PAGE_META, SITE } from "../config/site";
 import { usePageMeta } from "../hooks/usePageMeta";
@@ -28,6 +28,13 @@ export function ProjectsPage() {
   return (
     <section className="pt-36 pb-28" style={{ background: c.bg }}>
       <div className="max-w-[1400px] mx-auto px-6 lg:px-10">
+        {/* Breadcrumb */}
+        <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-sm mb-6 flex-wrap">
+          <Link to="/" style={{ color: c.muted, fontWeight: 500 }} className="hover:opacity-70 transition-opacity">Home</Link>
+          <ChevronRight size={14} style={{ color: c.muted }} />
+          <span style={{ color: c.heading, fontWeight: 600 }}>Projects</span>
+        </nav>
+
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
@@ -95,7 +102,7 @@ export function ProjectsPage() {
                 <div className="relative h-48 overflow-hidden">
                   <img
                     src={p.img}
-                    alt={p.title}
+                    alt={`Preview cover of ${p.title} - ${p.category}`}
                     loading="lazy"
                     decoding="async"
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
@@ -114,10 +121,6 @@ export function ProjectsPage() {
                   >
                     {p.category}
                   </span>
-                  <div
-                    className="absolute top-4 right-4 w-3 h-3 rounded-full"
-                    style={{ background: p.accent, boxShadow: `0 0 10px ${p.accent}` }}
-                  />
                 </div>
                 <div className="p-6 flex flex-col gap-3">
                   <div className="flex items-center justify-between">

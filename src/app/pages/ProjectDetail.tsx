@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import { motion } from "motion/react";
-import { ArrowLeft, ArrowRight, ArrowUpRight, ExternalLink, Github } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight, ChevronRight, ExternalLink, Github } from "lucide-react";
 import { getProject, getAdjacent } from "../data/projects";
 import { ProjectStructuredData } from "../components/StructuredData";
 import { PAGE_META, SITE } from "../config/site";
@@ -93,14 +93,14 @@ export function ProjectDetail() {
     <article className="pt-32 pb-24" style={{ background: c.bg }}>
       <ProjectStructuredData project={project} />
       <div className="max-w-[1400px] mx-auto px-6 lg:px-10">
-        {/* Back */}
-        <Link
-          to="/projects"
-          className="inline-flex items-center gap-2 text-sm mb-8 hover:opacity-70"
-          style={{ color: c.body, fontWeight: 600 }}
-        >
-          <ArrowLeft size={16} className="transition-transform duration-300 group-hover:-translate-x-1" /> All Projects
-        </Link>
+        {/* Breadcrumb */}
+        <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-sm mb-8 flex-wrap">
+          <Link to="/" style={{ color: c.muted, fontWeight: 500 }} className="hover:opacity-70 transition-opacity">Home</Link>
+          <ChevronRight size={14} style={{ color: c.muted }} />
+          <Link to="/projects" style={{ color: c.muted, fontWeight: 500 }} className="hover:opacity-70 transition-opacity">Projects</Link>
+          <ChevronRight size={14} style={{ color: c.muted }} />
+          <span style={{ color: c.heading, fontWeight: 600 }}>{project.title}</span>
+        </nav>
 
         {/* Hero */}
         <motion.div
@@ -160,76 +160,46 @@ export function ProjectDetail() {
           className="mt-12 mb-20 rounded-3xl overflow-hidden border"
           style={{ borderColor: c.border }}
         >
-          <img src={project.img} alt={project.title} className="w-full h-auto object-cover" loading="lazy" decoding="async" />
+          <img
+            src={project.img}
+            alt={`${project.title} - Main project banner and hero presentation`}
+            className="w-full h-auto object-cover"
+            loading="lazy"
+            decoding="async"
+          />
         </motion.div>
 
-        {/* Sections - branch on detail kind */}
+        {/* Sections */}
         <div className="grid lg:grid-cols-[1fr_320px] gap-12">
           <div>
-            {d.kind === "dev" ? (
-              <>
-                <Section title="Project Overview" c={c}><p>{d.overview}</p></Section>
-                <Section title="Problem Statement" c={c}><p>{d.problem}</p></Section>
-                <Section title="Goals & Objectives" c={c}><Bullets items={d.goals} c={c} /></Section>
-                <Section title="Research Process" c={c}><p>{d.research}</p></Section>
-                <Section title="Design Process" c={c}><p>{d.designProcess}</p></Section>
-                <Section title="Development Process" c={c}><p>{d.developmentProcess}</p></Section>
-                <Section title="Tech Stack" c={c}><Pills items={d.techStack} c={c} /></Section>
-                <Section title="Features" c={c}><Bullets items={d.features} c={c} /></Section>
-                <Section title="Challenges Faced" c={c}><Bullets items={d.challenges} c={c} /></Section>
-                <Section title="Solutions Implemented" c={c}><Bullets items={d.solutions} c={c} /></Section>
-                <Section title="Key Learnings" c={c}><Bullets items={d.learnings} c={c} /></Section>
-                <Section title="Results & Outcomes" c={c}><Bullets items={d.results} c={c} /></Section>
-              </>
-            ) : (
-              <>
-                <Section title="Project Brief" c={c}><p>{d.brief}</p></Section>
-                <Section title="Client Requirements" c={c}><Bullets items={d.clientRequirements} c={c} /></Section>
-                <Section title="Research" c={c}><p>{d.research}</p></Section>
-                <Section title="Wireframes" c={c}><p>{d.wireframes}</p></Section>
-                <Section title="Design Exploration" c={c}><p>{d.designExploration}</p></Section>
-                <Section title="Design Decisions" c={c}><Bullets items={d.designDecisions} c={c} /></Section>
-                <Section title="Color System" c={c}>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                    {d.colorSystem.map((col) => (
-                      <div
-                        key={col.hex}
-                        className="rounded-2xl overflow-hidden border"
-                        style={{ borderColor: c.border }}
-                      >
-                        <div style={{ background: col.hex, height: 80 }} />
-                        <div className="p-3">
-                          <div style={{ fontWeight: 700, color: c.heading, fontSize: 14 }}>
-                            {col.name}
-                          </div>
-                          <div style={{ color: c.muted, fontSize: 12 }}>{col.hex}</div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </Section>
-                <Section title="Typography" c={c}>
-                  <div className="space-y-3">
-                    {d.typography.map((tp) => (
-                      <div
-                        key={tp.name}
-                        className="p-4 rounded-2xl border flex justify-between items-center"
-                        style={{ borderColor: c.border, background: c.card }}
-                      >
-                        <span style={{ fontWeight: 700, color: c.heading }}>{tp.name}</span>
-                        <span style={{ color: c.muted, fontSize: 13 }}>{tp.usage}</span>
-                      </div>
-                    ))}
-                  </div>
-                </Section>
-                <Section title="Components" c={c}><Pills items={d.components} c={c} /></Section>
-                <Section title="Final Designs" c={c}><p>{d.finalDesigns}</p></Section>
-                <Section title="Challenges" c={c}><Bullets items={d.challenges} c={c} /></Section>
-                <Section title="Learnings" c={c}><Bullets items={d.learnings} c={c} /></Section>
-                <Section title="Final Outcome" c={c}><p>{d.finalOutcome}</p></Section>
-              </>
+            <Section title="Project Overview" c={c}><p>{d.overview}</p></Section>
+            <Section title="Problem & Purpose" c={c}><p>{d.problem}</p></Section>
+            {d.role && (
+              <Section title="My Role" c={c}><p>{d.role}</p></Section>
             )}
+            {d.goals && d.goals.length > 0 && (
+              <Section title="Goals & Objectives" c={c}><Bullets items={d.goals} c={c} /></Section>
+            )}
+            {d.research && (
+              <Section title="Research Process" c={c}><p>{d.research}</p></Section>
+            )}
+            {d.designProcess && (
+              <Section title="Design Approach" c={c}><p>{d.designProcess}</p></Section>
+            )}
+            {d.developmentProcess && (
+              <Section title="Development Approach" c={c}><p>{d.developmentProcess}</p></Section>
+            )}
+            <Section title="Main Features" c={c}><Bullets items={d.features} c={c} /></Section>
+            <Section title="Technologies Used" c={c}><Pills items={d.techStack} c={c} /></Section>
+            {d.uiUxDecisions && d.uiUxDecisions.length > 0 && (
+              <Section title="UI/UX Decisions" c={c}><Bullets items={d.uiUxDecisions} c={c} /></Section>
+            )}
+            <Section title="Challenges Faced" c={c}><Bullets items={d.challenges} c={c} /></Section>
+            <Section title="Solutions Implemented" c={c}><Bullets items={d.solutions} c={c} /></Section>
+            <Section title="What I Learned" c={c}><Bullets items={d.learnings} c={c} /></Section>
+            <Section title="Results & Outcome" c={c}><Bullets items={d.results} c={c} /></Section>
           </div>
+
 
           {/* Sidebar */}
           <aside className="lg:sticky lg:top-28 self-start">
@@ -275,68 +245,251 @@ export function ProjectDetail() {
           </aside>
         </div>
 
-        {/* Gallery */}
+        {/* Design System — only rendered when designSystem data is present */}
+        {d.designSystem && (
+          <motion.section
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55, ease: MOTION_EASE }}
+            className="mt-20"
+          >
+            <h2
+              style={{
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                fontSize: "clamp(1.4rem, 2.6vw, 1.9rem)",
+                fontWeight: 800,
+                color: c.heading,
+                letterSpacing: "-0.01em",
+                marginBottom: 24,
+              }}
+            >
+              Design System
+            </h2>
+
+            <div className="grid md:grid-cols-3 gap-8">
+              {/* Colour Palette */}
+              <div>
+                <div style={{ color: c.muted, fontSize: 12, fontWeight: 700, letterSpacing: "0.08em", marginBottom: 14 }}>COLOUR PALETTE</div>
+                <div className="flex flex-col gap-3">
+                  {d.designSystem.palette.map((col) => (
+                    <div
+                      key={col.hex}
+                      className="flex items-center gap-3 rounded-xl border px-3 py-2"
+                      style={{ borderColor: c.border, background: c.card }}
+                    >
+                      <div
+                        className="rounded-md flex-shrink-0"
+                        style={{ width: 36, height: 36, background: col.hex, border: "1px solid rgba(0,0,0,.08)" }}
+                      />
+                      <div>
+                        <div style={{ fontWeight: 700, color: c.heading, fontSize: 13 }}>{col.name}</div>
+                        <div style={{ color: c.muted, fontSize: 11, fontFamily: "monospace" }}>{col.hex}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Typography */}
+              <div>
+                <div style={{ color: c.muted, fontSize: 12, fontWeight: 700, letterSpacing: "0.08em", marginBottom: 14 }}>TYPOGRAPHY</div>
+                <div className="flex flex-col gap-3">
+                  {d.designSystem.fonts.map((f) => (
+                    <div
+                      key={f.name}
+                      className="rounded-xl border px-4 py-3"
+                      style={{ borderColor: c.border, background: c.card }}
+                    >
+                      <div style={{ fontWeight: 700, color: c.heading, fontSize: 15 }}>{f.name}</div>
+                      <div style={{ color: c.muted, fontSize: 12, marginTop: 2 }}>{f.usage}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Tools */}
+              <div>
+                <div style={{ color: c.muted, fontSize: 12, fontWeight: 700, letterSpacing: "0.08em", marginBottom: 14 }}>TOOLS & STACK</div>
+                <div className="flex flex-wrap gap-2">
+                  {d.designSystem.tools.map((tool) => (
+                    <span
+                      key={tool}
+                      className="px-3 py-1.5 rounded-lg text-sm"
+                      style={{ fontWeight: 600, background: c.pill, color: c.body }}
+                    >
+                      {tool}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </motion.section>
+        )}
+
+        {/* Gallery — Responsive Bento Grid */}
         <section className="mt-20">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 mb-8">
+            <div>
+              <span
+                className="inline-block px-3 py-1 rounded-full text-xs font-semibold mb-3 border"
+                style={badgeStyle(c)}
+              >
+                Visual Showcase
+              </span>
+              <h2
+                style={{
+                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  fontSize: "clamp(1.4rem, 2.6vw, 1.9rem)",
+                  fontWeight: 800,
+                  color: c.heading,
+                  letterSpacing: "-0.01em",
+                }}
+              >
+                Screenshots & Visual Assets
+              </h2>
+            </div>
+            <p style={{ color: c.muted, fontSize: 13 }}>
+              {project.gallery.length} visual assets & specifications
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 [grid-auto-flow:dense]">
+            {project.gallery.map((g, i) => {
+              const size = g.size || "standard";
+              const fit = g.objectFit || "contain";
+
+              const spanClass =
+                size === "featured" || size === "large"
+                  ? "col-span-1 md:col-span-2 lg:col-span-2 md:row-span-2 min-h-[340px] sm:min-h-[420px] lg:min-h-[480px]"
+                  : size === "wide"
+                  ? "col-span-1 md:col-span-2 lg:col-span-2 md:row-span-1 min-h-[240px] sm:min-h-[280px]"
+                  : size === "tall"
+                  ? "col-span-1 md:col-span-1 lg:col-span-1 md:row-span-2 min-h-[340px] sm:min-h-[420px] lg:min-h-[480px]"
+                  : "col-span-1 md:col-span-1 lg:col-span-1 md:row-span-1 min-h-[240px] sm:min-h-[280px]";
+
+              const badgeLabel =
+                size === "featured" || size === "large"
+                  ? "Featured"
+                  : size === "tall"
+                  ? "Vertical"
+                  : size === "wide"
+                  ? "Wide"
+                  : "Asset";
+
+              return (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: (i % 6) * 0.05 }}
+                  className={`rounded-2xl overflow-hidden border flex flex-col justify-between group transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/5 hover:-translate-y-1 ${spanClass}`}
+                  style={{
+                    borderColor: c.border,
+                    background: c.card,
+                    boxShadow: c.shadow,
+                  }}
+                >
+                  <div
+                    className={`relative flex-1 w-full min-h-0 flex items-center justify-center overflow-hidden ${
+                      fit === "cover"
+                        ? "p-0"
+                        : "p-4 sm:p-6 bg-black/[0.02] dark:bg-white/[0.01]"
+                    }`}
+                  >
+                    <img
+                      src={g.src}
+                      alt={g.caption ? `${project.title} — ${g.caption}` : `${project.title} visual specification asset`}
+                      className={`w-full h-full rounded-lg transition-transform duration-500 group-hover:scale-[1.02] ${
+                        fit === "cover"
+                          ? "object-cover h-full min-h-[220px]"
+                          : "object-contain max-h-full"
+                      }`}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                  {g.caption && (
+                    <div
+                      className="px-4 py-3 border-t flex items-center justify-between gap-3 flex-shrink-0"
+                      style={{ borderColor: c.border, background: c.card }}
+                    >
+                      <div
+                        style={{
+                          color: c.heading,
+                          fontSize: 13,
+                          fontWeight: 600,
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
+                        title={g.caption}
+                      >
+                        {g.caption}
+                      </div>
+                      <span
+                        className="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded font-mono flex-shrink-0"
+                        style={{
+                          background: c.pill,
+                          color: c.muted,
+                          fontWeight: 700,
+                        }}
+                      >
+                        {badgeLabel}
+                      </span>
+                    </div>
+                  )}
+                </motion.div>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* Related Projects Nav */}
+        <section className="mt-20 pt-10 border-t" style={{ borderColor: c.border }}>
           <h2
             style={{
               fontFamily: "'Plus Jakarta Sans', sans-serif",
               fontSize: "clamp(1.4rem, 2.6vw, 1.9rem)",
               fontWeight: 800,
               color: c.heading,
-              marginBottom: 24,
+              marginBottom: 20,
             }}
           >
-            Screenshots
+            Related Projects
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {project.gallery.map((g, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.08 }}
-                className="rounded-2xl overflow-hidden border"
-                style={{ borderColor: c.border, background: c.card }}
+          <nav className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {prev && (
+              <Link
+                to={`/projects/${prev.slug}`}
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                className="group p-6 rounded-2xl border flex items-center gap-4 hover:-translate-y-1 transition-transform"
+                style={{ background: c.card, borderColor: c.border }}
               >
-                <img src={g.src} alt={g.caption || project.title} className="w-full h-64 object-cover" loading="lazy" decoding="async" />
-                {g.caption && (
-                  <div className="p-4" style={{ color: c.muted, fontSize: 13 }}>{g.caption}</div>
-                )}
-              </motion.div>
-            ))}
-          </div>
+                <ArrowLeft size={20} style={{ color: c.primary }} />
+                <div>
+                  <div style={{ color: c.muted, fontSize: 12, fontWeight: 600 }}>Previous Project</div>
+                  <div style={{ color: c.heading, fontWeight: 700, marginTop: 2 }}>{prev.title}</div>
+                </div>
+              </Link>
+            )}
+            {next && (
+              <Link
+                to={`/projects/${next.slug}`}
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                className="group p-6 rounded-2xl border flex items-center justify-end gap-4 text-right hover:-translate-y-1 transition-transform"
+                style={{ background: c.card, borderColor: c.border }}
+              >
+                <div>
+                  <div style={{ color: c.muted, fontSize: 12, fontWeight: 600 }}>Next Project</div>
+                  <div style={{ color: c.heading, fontWeight: 700, marginTop: 2 }}>{next.title}</div>
+                </div>
+                <ArrowRight size={20} style={{ color: c.primary }} />
+              </Link>
+            )}
+          </nav>
         </section>
-
-        {/* Prev / Next */}
-        <nav className="mt-20 grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {prev && (
-            <Link
-              to={`/projects/${prev.slug}`}
-              className="group p-6 rounded-2xl border flex items-center gap-4 hover:-translate-y-1 transition-transform"
-              style={{ background: c.card, borderColor: c.border }}
-            >
-              <ArrowLeft size={20} style={{ color: c.primary }} />
-              <div>
-                <div style={{ color: c.muted, fontSize: 12, fontWeight: 600 }}>Previous</div>
-                <div style={{ color: c.heading, fontWeight: 700, marginTop: 2 }}>{prev.title}</div>
-              </div>
-            </Link>
-          )}
-          {next && (
-            <Link
-              to={`/projects/${next.slug}`}
-              className="group p-6 rounded-2xl border flex items-center justify-end gap-4 text-right hover:-translate-y-1 transition-transform"
-              style={{ background: c.card, borderColor: c.border }}
-            >
-              <div>
-                <div style={{ color: c.muted, fontSize: 12, fontWeight: 600 }}>Next</div>
-                <div style={{ color: c.heading, fontWeight: 700, marginTop: 2 }}>{next.title}</div>
-              </div>
-              <ArrowRight size={20} style={{ color: c.primary }} />
-            </Link>
-          )}
-        </nav>
       </div>
     </article>
   );

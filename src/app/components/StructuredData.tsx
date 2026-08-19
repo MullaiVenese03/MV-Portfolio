@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { SITE, SITE_URL } from "../config/site";
+import { absoluteUrl, SITE } from "../config/site";
 import { socialLinks } from "../data/socialLinks";
 import type { Project } from "../data/projects";
 
@@ -23,7 +23,7 @@ export function PersonStructuredData() {
       "@context": "https://schema.org",
       "@type": "Person",
       name: SITE.name,
-      url: SITE_URL,
+      url: absoluteUrl("/"),
       email: SITE.email,
       jobTitle: "Front-End Developer & UI/UX Designer",
       address: {
@@ -47,13 +47,13 @@ export function ProjectStructuredData({ project }: { project: Project }) {
       "@type": "CreativeWork",
       name: project.title,
       description: project.description,
-      url: `${SITE_URL}/projects/${project.slug}`,
+      url: absoluteUrl(`/projects/${project.slug}`),
       author: {
         "@type": "Person",
         name: SITE.name,
-        url: SITE_URL,
+        url: absoluteUrl("/"),
       },
-      image: project.img,
+      image: absoluteUrl(project.img),
       keywords: project.tags.join(", "),
     });
     return () => document.getElementById(SCRIPT_ID)?.remove();
@@ -68,7 +68,7 @@ export function WebSiteStructuredData() {
       "@context": "https://schema.org",
       "@type": "WebSite",
       name: SITE.name,
-      url: SITE_URL,
+      url: absoluteUrl("/"),
       description: SITE.description,
       author: {
         "@type": "Person",

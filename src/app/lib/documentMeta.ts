@@ -1,3 +1,5 @@
+import { absoluteUrl, SITE } from "../config/site";
+
 type MetaInput = {
   title: string;
   description: string;
@@ -45,8 +47,10 @@ export function applyDocumentMeta({
 }: MetaInput) {
   if (typeof document === "undefined") return;
 
-  const origin = window.location.origin;
-  const canonical = `${origin}${path === "/" ? "" : path}`;
+  const canonical = absoluteUrl(path);
+  const imageUrl = image
+    ? (image.startsWith("http://") || image.startsWith("https://") ? image : absoluteUrl(image))
+    : absoluteUrl(SITE.ogImage);
 
   document.title = title;
 
@@ -59,10 +63,22 @@ export function applyDocumentMeta({
   upsertMeta("property", "og:description", description);
   upsertMeta("property", "og:type", type);
   upsertMeta("property", "og:url", canonical);
-  if (image) upsertMeta("property", "og:image", image);
+  upsertMeta("property", "og:site_name", SITE.name);
+  upsertMeta("property", "og:locale", SITE.locale);
+  if (imageUrl) {
+    upsertMeta("property", "og:image", imageUrl);
+    upsertMeta("property", "og:image:alt", title);
+  }
 
   upsertMeta("name", "twitter:card", "summary_large_image");
   upsertMeta("name", "twitter:title", title);
   upsertMeta("name", "twitter:description", description);
-  if (image) upsertMeta("name", "twitter:image", image);
+  if (SITE.twitterHandle) {
+    upsertMeta("name", "twitter:site", SITE.twitterHandle);
+    upsertMeta("name", "twitter:creator", SITE.twitterHandle);
+  }
+  if (imageUrl) {
+    upsertMeta("name", "twitter:image", imageUrl);
+    upsertMeta("name", "twitter:image:alt", title);
+  }
 }

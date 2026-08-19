@@ -96,7 +96,7 @@ export function Navbar({ darkMode, onToggleTheme, heroReady = false }: NavbarPro
       >
         <a
           href="#home"
-          aria-label="Mullai Venese — go to home section"
+          aria-label="Mullai Venese - go to home section"
           onClick={(e) => {
             e.preventDefault();
             handleNav("home");
@@ -105,7 +105,7 @@ export function Navbar({ darkMode, onToggleTheme, heroReady = false }: NavbarPro
         >
           <img
             src={mvLogo}
-            alt="MV"
+            alt="Mullai Venese monogram logo"
             className="w-9 h-9 object-contain transition-transform duration-300 group-hover:rotate-6 group-hover:scale-110"
             draggable={false}
           />

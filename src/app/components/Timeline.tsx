@@ -103,7 +103,7 @@ function TimelineCardContent({
     <div
       className="relative z-10 flex flex-col h-full gap-3 sm:gap-4 p-5 sm:p-6 md:p-7 rounded-2xl sm:rounded-3xl min-h-[260px] sm:min-h-[280px]"
       style={{
-        /* 100% solid, fully opaque card background — ZERO bleed-through */
+        /* 100% solid, fully opaque card background - ZERO bleed-through */
         background: "var(--mv-card, #ffffff)",
         border: `1.5px solid ${c.border}`,
         boxShadow: c.shadowLg,
@@ -198,7 +198,7 @@ export function Timeline() {
     >
       <div className={shouldReduceMotion ? "" : "journey-sticky-container"} style={{ background: c.section }}>
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 pt-4 sm:pt-6 pb-8 sm:pb-12 w-full flex flex-col items-center justify-center min-h-screen">
-          {/* Section header — STRUCTURALLY STABLE at top */}
+          {/* Section header - STRUCTURALLY STABLE at top */}
           <motion.div
             className="flex flex-col items-center text-center shrink-0 mb-3 sm:mb-4 z-30 pointer-events-auto"
             initial={{ opacity: 0, y: 24 }}
@@ -214,7 +214,7 @@ export function Timeline() {
             </h2>
           </motion.div>
 
-          {/* Compact Deck Container — strictly bounded BELOW the header */}
+          {/* Compact Deck Container - strictly bounded BELOW the header */}
           {shouldReduceMotion ? (
             <div className="flex flex-col gap-5 max-w-[760px] mx-auto w-full">
               {sortedTimelineItems.map((item, i) => (

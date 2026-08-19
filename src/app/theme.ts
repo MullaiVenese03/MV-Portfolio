@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 
 export const FONT = "'Plus Jakarta Sans', sans-serif";
-/** Aquatico — used selectively for major display headings and branding text only */
+/** Aquatico - used selectively for major display headings and branding text only */
 export const FONT_DISPLAY = "'Aquatico', 'Plus Jakarta Sans', sans-serif";
 export const MOTION_EASE = [0.22, 1, 0.36, 1] as const;
 export const THEME_STORAGE_KEY = "mv-theme";
@@ -18,7 +18,7 @@ export const TIMING = {
   counter: 1.2,
 } as const;
 
-/** Intro screen palette — mirrors portfolio light/dark themes */
+/** Intro screen palette - mirrors portfolio light/dark themes */
 export const introThemes = {
   light: {
     background:
@@ -64,13 +64,13 @@ export function getIntroTheme(dark: boolean) {
   return dark ? introThemes.dark : introThemes.light;
 }
 
-/** Literal values for reveal overlay (not CSS vars — avoids mid-transition drift) */
+/** Literal values for reveal overlay (not CSS vars - avoids mid-transition drift) */
 export const themeOverlayColors = {
   light: "#F8FAFC",
   dark: "#0C0C0E",
 } as const;
 
-/** Static CSS variable references — colors animate when html[data-theme] changes */
+/** Static CSS variable references - colors animate when html[data-theme] changes */
 export const themeVars = {
   bg: "var(--mv-bg)",
   section: "var(--mv-section)",

@@ -66,7 +66,7 @@ export function About({ darkMode }: AboutProps) {
             <div className="relative inline-block">
               <img
                 src={myImage}
-                alt="Mullai Venese — Front-End Developer and UI/UX Designer"
+                alt="Mullai Venese - Front-End Developer and UI/UX Designer"
                 loading="lazy"
                 decoding="async"
                 width={400}
@@ -82,7 +82,7 @@ export function About({ darkMode }: AboutProps) {
               {/* Signature autograph */}
               <img
                 src={signatureImage}
-                alt="Mullai signature"
+                alt="Mullai Venese personal signature"
                 draggable={false}
                 style={{
                   position: "absolute",

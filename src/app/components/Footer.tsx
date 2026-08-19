@@ -149,7 +149,7 @@ export function Footer({ darkMode }: FooterProps) {
             </div>
             <img
               src={mvLogo}
-              alt="MV"
+              alt="Mullai Venese monogram logo"
               className="w-10 h-10 object-contain flex-shrink-0"
               draggable={false}
             />

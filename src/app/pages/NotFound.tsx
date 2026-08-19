@@ -72,7 +72,7 @@ export function NotFound() {
           View projects
         </Link>
       </div>
-      <p className="sr-only">{SITE.name} — {PAGE_META.notFound.description}</p>
+      <p className="sr-only">{SITE.name} - {PAGE_META.notFound.description}</p>
     </section>
   );
 }
