@@ -1,4 +1,6 @@
-import { useState, useId } from "react";
+import { useState, useId, useRef } from "react";
+import { useSubmit } from "@formspree/react";
+import { isSubmissionError } from "@formspree/core";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { motion } from "motion/react";
 import { socialLinks } from "../data/socialLinks";
@@ -23,6 +25,13 @@ export function Contact({ darkMode }: ContactProps) {
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
 
+  // useSubmit returns Promise<SubmissionResult> directly — no stale state issues
+  const fsSubmit = useSubmit("mvkpjgdl");
+
+  // Snapshot form values at validation time so the 0.85s plane animation delay
+  // doesn't cause a stale closure to send outdated field data
+  const pendingFormRef = useRef<{ name: string; email: string; subject: string; message: string } | null>(null);
+
   const c = themeVars;
 
   const validateForm = (): boolean => {
@@ -46,17 +55,57 @@ export function Contact({ darkMode }: ContactProps) {
     }
 
     setErrors({});
+    // Snapshot current values NOW (before animation plays) so handleFlightComplete
+    // always sends the correct data regardless of any re-renders during the delay
+    pendingFormRef.current = { ...form };
     return true;
   };
 
   const handleFlightComplete = async () => {
+    const snapshot = pendingFormRef.current;
+    if (!snapshot) return;
+    pendingFormRef.current = null;
+
     setSending(true);
-    // Simulated network send request
-    await new Promise((resolve) => setTimeout(resolve, 350));
+
+    const data = new FormData();
+    data.append("name", snapshot.name);
+    data.append("email", snapshot.email);
+    data.append("subject", snapshot.subject);
+    data.append("message", snapshot.message);
+
+    // useSubmit returns the result directly — no stale state, no ref workarounds needed
+    const result = await fsSubmit(data);
+
     setSending(false);
+
+    if (isSubmissionError(result)) {
+      const mapped: { name?: string; email?: string; subject?: string; message?: string } = {};
+      const knownFields = ["name", "email", "subject", "message"] as const;
+
+      for (const field of knownFields) {
+        const fieldErrs = result.getFieldErrors(field);
+        if (fieldErrs.length > 0) {
+          mapped[field] = fieldErrs[0].message;
+        }
+      }
+
+      if (Object.keys(mapped).length > 0) {
+        setErrors(mapped);
+      } else {
+        const formErrs = result.getFormErrors();
+        setErrors({
+          message:
+            formErrs.length > 0
+              ? formErrs[0].message
+              : "Something went wrong. Please try again or email me directly.",
+        });
+      }
+      return;
+    }
+
     setSent(true);
     setForm({ name: "", email: "", subject: "", message: "" });
-
     setTimeout(() => setSent(false), 5000);
   };
 

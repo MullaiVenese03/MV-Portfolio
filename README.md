@@ -228,7 +228,7 @@ Front-End Developer & UI/UX Designer
 
 - **Portfolio**: [https://mullaivenese.dev](https://mullaivenese.dev)
 - **GitHub**: [https://github.com/MullaiVenese03](https://github.com/MullaiVenese03)
-- **LinkedIn**: [https://www.linkedin.com/in/mullaivenese](https://www.linkedin.com/in/mullaivenese)
+- **LinkedIn**: [https://www.linkedin.com/in/mullaivenese](https://www.linkedin.com/in/mullaivenesep/)
 - **Email**: [mullaivenesep@gmail.com](mailto:mullaivenesep@gmail.com)
 
 ## License

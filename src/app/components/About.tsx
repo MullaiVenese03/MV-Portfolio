@@ -4,6 +4,7 @@ import { socialLinks } from "../data/socialLinks";
 import { SocialIconLink } from "./SocialIconLink";
 import myImage from "../../imports/My-Image-1.png";
 import signatureImage from "../../imports/Mullai-Signature-Image.png";
+import resumeUrl from "../../imports/MullaiVenese_P_Front-End_Resume.pdf?url";
 import { badgeStyle, FONT, FONT_DISPLAY, MOTION_EASE, themeVars } from "../theme";
 
 interface AboutProps {
@@ -160,8 +161,8 @@ export function About({ darkMode }: AboutProps) {
                 whileInView={{ opacity: 1, scale: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.55, delay: 0.72, ease: MOTION_EASE }}
-                href="/resume.pdf"
-                download
+                href={resumeUrl}
+                download="MullaiVenese_P_Front-End_Resume.pdf"
                 className="group relative flex items-center gap-2 px-6 py-3 rounded-full text-sm text-white transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.03] active:scale-95"
                 style={{
                   background: c.primary,

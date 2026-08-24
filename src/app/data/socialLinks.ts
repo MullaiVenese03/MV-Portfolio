@@ -19,13 +19,13 @@ export const socialLinks: SocialLink[] = [
   {
     icon: Linkedin,
     label: "LinkedIn",
-    href: "https://www.linkedin.com/in/mullaivenese",
+    href: "https://www.linkedin.com/in/mullaivenesep/",
     color: "#0A66C2",
   },
   {
     icon: Instagram,
     label: "Instagram",
-    href: "https://www.instagram.com/mullai.dev",
+    href: "https://www.instagram.com/itsmadebymv/",
     color: "#E4405F",
   },
   {
