@@ -2,12 +2,16 @@
 
 > Personal portfolio showcasing my projects, frontend development, UI/UX design work, and professional journey.
 
-Live Site: [https://mullaivenese.dev](https://mullaivenese.dev)  
-Repository: [https://github.com/MullaiVenese03/MV-Portfolio](https://github.com/MullaiVenese03/MV-Portfolio)
+**Live Site:** [https://mullai-venese.web.app](https://mullai-venese.web.app)  
+**Repository:** [https://github.com/MullaiVenese03/MV-Portfolio](https://github.com/MullaiVenese03/MV-Portfolio)
+
+---
 
 ## Overview
 
 MV-Portfolio is a single-page application (SPA) with dedicated route views designed to present digital services, design systems, and software engineering capabilities. Built with emphasis on performance, motion design, and responsive usability, the portfolio features interactive 3D presentations, card stack interactions, accessible design patterns, and structured search engine metadata.
+
+---
 
 ## Features
 
@@ -30,13 +34,15 @@ MV-Portfolio is a single-page application (SPA) with dedicated route views desig
   Background overview, personal engineering approach, education summary, and key project metrics counters.
 
 - **Contact Form & Info**  
-  Interactive contact form with input validation, animated flight button indicator, direct email/phone links, and social channels.
+  Interactive contact form powered by Formspree (AJAX, no page reload), with animated paper-plane submission button, input validation, direct email/phone links, and social channels.
 
 - **Responsive Theme Switching**  
   Light and dark theme modes using custom CSS properties and smooth reveal transitions.
 
 - **Accessibility & Motion Optimization**  
   Native keyboard focus states, semantic HTML5 structure, skip navigation link, and `prefers-reduced-motion` adaptivity.
+
+---
 
 ## Tech Stack
 
@@ -47,21 +53,25 @@ MV-Portfolio is a single-page application (SPA) with dedicated route views desig
 | Vite 6 | Frontend build tool and development server |
 | Tailwind CSS v4 | Utility-first styling framework |
 | Motion (`motion/react`) | Scroll-driven animations, 3D card transforms, and micro-interactions |
-| React Router v8 | Client-side routing (`createBrowserRouter`) |
+| React Router v6 | Client-side routing (`createBrowserRouter`) |
 | Lenis | Smooth scrolling library |
 | Lucide React | Modern UI iconography |
+| @formspree/react | AJAX contact form submission |
 | ESLint 9 | Code quality enforcement |
+
+---
 
 ## Project Structure
 
 ```text
 MV-Portfolio/
 ├── .env.example
+├── .firebaserc
 ├── .gitignore
 ├── ATTRIBUTIONS.md
 ├── eslint.config.js
+├── firebase.json
 ├── index.html
-├── package-lock.json
 ├── package.json
 ├── postcss.config.mjs
 ├── public/
@@ -77,62 +87,26 @@ MV-Portfolio/
 │   ├── app/
 │   │   ├── App.tsx
 │   │   ├── components/
-│   │   │   ├── About.tsx
-│   │   │   ├── Contact.tsx
-│   │   │   ├── ErrorBoundary.tsx
-│   │   │   ├── Footer.tsx
-│   │   │   ├── FooterLink.tsx
-│   │   │   ├── Hero.tsx
-│   │   │   ├── HeroVideoIntro.tsx
-│   │   │   ├── Navbar.tsx
-│   │   │   ├── PaperPlaneButton.tsx
-│   │   │   ├── Projects.tsx
-│   │   │   ├── Services.tsx
-│   │   │   ├── SignatureIntro.tsx
-│   │   │   ├── Skills.tsx
-│   │   │   ├── SkipLink.tsx
-│   │   │   ├── SocialIconLink.tsx
-│   │   │   ├── StructuredData.tsx
-│   │   │   ├── Testimonials.tsx
-│   │   │   ├── ThemeReveal.tsx
-│   │   │   └── Timeline.tsx
 │   │   ├── config/
-│   │   │   └── site.ts
+│   │   │   └── site.ts          ← site URL & metadata config
 │   │   ├── data/
-│   │   │   ├── navigation.ts
-│   │   │   ├── projects.ts
-│   │   │   └── socialLinks.ts
+│   │   │   └── socialLinks.ts   ← social media links
 │   │   ├── hooks/
-│   │   │   ├── usePageMeta.ts
-│   │   │   └── useScrollSpy.ts
 │   │   ├── layouts/
-│   │   │   └── RootLayout.tsx
 │   │   ├── lib/
-│   │   │   ├── scroll.ts
-│   │   │   └── validation.ts
 │   │   ├── pages/
-│   │   │   ├── Home.tsx
-│   │   │   ├── NotFound.tsx
-│   │   │   ├── ProjectDetail.tsx
-│   │   │   └── ProjectsPage.tsx
 │   │   ├── routes.tsx
 │   │   └── theme.ts
-│   ├── imports/
+│   ├── imports/                 ← static assets (images, resume PDF)
 │   ├── main.tsx
-│   ├── react-polyfill.ts
 │   ├── styles/
-│   │   ├── a11y.css
-│   │   ├── fonts.css
-│   │   ├── globals.css
-│   │   ├── index.css
-│   │   ├── portfolio-theme.css
-│   │   ├── responsive.css
-│   │   └── tailwind.css
 │   └── vite-env.d.ts
 ├── tsconfig.json
 ├── vercel.json
 └── vite.config.ts
 ```
+
+---
 
 ## Getting Started
 
@@ -143,8 +117,6 @@ MV-Portfolio/
 
 ### Installation
 
-Clone the repository and install dependencies:
-
 ```bash
 git clone https://github.com/MullaiVenese03/MV-Portfolio.git
 cd MV-Portfolio
@@ -153,83 +125,155 @@ npm install
 
 ### Development
 
-Start the Vite development server:
-
 ```bash
 npm run dev
 ```
 
 ### Production Build
 
-Typecheck and create an optimized production build:
-
 ```bash
 npm run build
 ```
 
-The build output will be created in the `dist/` directory.
+Output goes to `dist/`.
 
 ### Additional Scripts
 
-- **Typecheck**: `npm run typecheck`
-- **Lint**: `npm run lint`
+| Script | Command |
+|---|---|
+| Typecheck | `npm run typecheck` |
+| Lint | `npm run lint` |
+| Build | `npm run build` |
+
+---
 
 ## Environment Variables
 
-The project uses optional environment configuration for canonical URLs, Open Graph tags, and sitemap generation.
+No private API keys or secrets are required. The only env variable controls the canonical site URL used in metadata and OG tags.
 
-To set up environment variables:
+Copy `.env.example` to `.env` and set:
 
-1. Copy `.env.example` to `.env`:
-   ```bash
-   cp .env.example .env
-   ```
+```env
+VITE_SITE_URL=https://mullai-venese.web.app
+```
 
-2. Set your production URL in `.env`:
-   ```env
-   VITE_SITE_URL=https://mullaivenese.dev
-   ```
+> ⚠️ Never commit `.env` — it is gitignored. Only commit `.env.example`.
 
-*Note: No private API keys or secrets are required for running this project.*
+---
+
+## Deployment
+
+### 🔥 Firebase Hosting (Current)
+
+The project is deployed to **Firebase Hosting** at [https://mullai-venese.web.app](https://mullai-venese.web.app).
+
+```bash
+npm run build
+firebase deploy
+```
+
+Firebase config is in [`firebase.json`](./firebase.json) — public directory is `dist/`, SPA rewrites enabled.
+
+---
+
+### ↩️ Switching Back to GitHub Pages
+
+If you need to redeploy to GitHub Pages (`https://mullaivenese03.github.io/MV-Portfolio/`), make these changes:
+
+**1. `vite.config.ts`** — change base path:
+```diff
+- base: "/"
++ base: "/MV-Portfolio/"
+```
+
+**2. `index.html`** — update canonical, og:url, og:image, twitter:image:
+```diff
+- <link rel="canonical" href="https://mullai-venese.web.app/" />
++ <link rel="canonical" href="https://mullaivenese03.github.io/MV-Portfolio/" />
+- <meta property="og:url" content="https://mullai-venese.web.app/" />
++ <meta property="og:url" content="https://mullaivenese03.github.io/MV-Portfolio/" />
+- <meta property="og:image" content="https://mullai-venese.web.app/og-image.svg" />
++ <meta property="og:image" content="https://mullaivenese03.github.io/MV-Portfolio/og-image.svg" />
+- <meta name="twitter:image" content="https://mullai-venese.web.app/og-image.svg" />
++ <meta name="twitter:image" content="https://mullaivenese03.github.io/MV-Portfolio/og-image.svg" />
+```
+
+**3. `src/app/config/site.ts`** — update fallback URL:
+```diff
+- "https://mullai-venese.web.app"
++ "https://mullaivenese03.github.io/MV-Portfolio"
+```
+
+**4. `public/sitemap.xml`** — replace all `https://mullai-venese.web.app` with `https://mullaivenese03.github.io/MV-Portfolio`
+
+**5. `public/robots.txt`** — update Sitemap line:
+```diff
+- Sitemap: https://mullai-venese.web.app/sitemap.xml
++ Sitemap: https://mullaivenese03.github.io/MV-Portfolio/sitemap.xml
+```
+
+**6. `.env` / `.env.example`**:
+```env
+VITE_SITE_URL=https://mullaivenese03.github.io/MV-Portfolio
+```
+
+Then push to the `gh-pages` branch or run the GitHub Actions workflow.
+
+---
+
+### Other Platforms
+
+- **Vercel**: SPA route rewrites configured in `vercel.json`. Set `base: "/"` in `vite.config.ts`.
+- **Netlify / Cloudflare Pages**: SPA routing fallback configured in `public/_redirects`. Set `base: "/"`.
+
+---
 
 ## Responsive Design
 
-The application is engineered with dynamic breakpoint adaptation:
+- **Desktop (≥ 1024px)**: Interactive 3D card presentations, 3-column service deck layout, and expanded header navigation.
+- **Tablet (768px – 1023px)**: Adapted 2-column grid compositions, responsive scroll height constraints, and translated card stack containers.
+- **Mobile (< 768px)**: Single-column vertical stacks, touch-driven scroll progress animations, mobile overlay navigation menu, and fluid viewport controls.
 
-- **Desktop (`>= 1024px`)**: Interactive 3D card presentations, 3-column service deck layout, and expanded header navigation.
-- **Tablet (`768px – 1023px`)**: Adapted 2-column grid compositions, responsive scroll height constraints, and translated card stack containers.
-- **Mobile (`< 768px`)**: Single-column vertical stacks, touch-driven scroll progress animations, mobile overlay navigation menu, and fluid viewport controls.
+---
 
 ## Performance & Optimization
 
 - **Code Splitting**: Manual Rollup chunking in `vite.config.ts` for React core, Motion, React Router, and Lucide icons.
-- **GPU-Accelerated Animations**: Transformations use CSS `transform` and `opacity` to prevent continuous layout thrashing.
+- **GPU-Accelerated Animations**: Transformations use CSS `transform` and `opacity` to prevent layout thrashing.
 - **Reduced Motion Support**: Motion transforms automatically disable when `prefers-reduced-motion: reduce` is enabled.
-- **SEO & Metadata**: Pre-rendered static sitemap (`sitemap.xml`), robots policy (`robots.txt`), Open Graph image (`og-image.svg`), and WebSite/Person JSON-LD structured data.
+- **SEO & Metadata**: Static sitemap (`sitemap.xml`), robots policy (`robots.txt`), Open Graph image, and WebSite/Person JSON-LD structured data.
+
+---
 
 ## Accessibility
 
-- **Semantic HTML**: HTML5 structural elements (`<header>`, `<nav>`, `<main>`, `<section>`, `<footer>`, `<article>`).
+- **Semantic HTML**: HTML5 structural elements (`<header>`, `<nav>`, `<main>`, `<section>`, `<footer>`).
 - **Focus Management**: Visible outline focus rings for keyboard navigation.
 - **Skip Navigation**: Accessible `<SkipLink />` component for screen readers and keyboard users.
 - **ARIA Standards**: Explicit ARIA attributes and live regions for form validation states.
 
-## Deployment
+---
 
-The project includes static deployment configuration:
+## Security
 
-- **Vercel**: SPA route rewrites configured in `vercel.json`.
-- **Netlify / Cloudflare Pages**: SPA routing fallback configured in `public/_redirects`.
+- No private API keys are stored in the repository or exposed in the client bundle.
+- The Formspree form ID (`mvkpjgdl`) is a public endpoint identifier — it is not a secret key.
+- All environment variables prefixed with `VITE_` are baked into the client bundle at build time — never put secrets in them.
+
+---
 
 ## Author
 
 **Mullai Venese**  
 Front-End Developer & UI/UX Designer
 
-- **Portfolio**: [https://mullaivenese.dev](https://mullaivenese.dev)
+- **Portfolio**: [https://mullai-venese.web.app](https://mullai-venese.web.app)
 - **GitHub**: [https://github.com/MullaiVenese03](https://github.com/MullaiVenese03)
-- **LinkedIn**: [https://www.linkedin.com/in/mullaivenese](https://www.linkedin.com/in/mullaivenesep/)
+- **LinkedIn**: [https://www.linkedin.com/in/mullaivenesep/](https://www.linkedin.com/in/mullaivenesep/)
+- **Instagram**: [https://www.instagram.com/itsmadebymv/](https://www.instagram.com/itsmadebymv/)
 - **Email**: [mullaivenesep@gmail.com](mailto:mullaivenesep@gmail.com)
+
+---
 
 ## License
 

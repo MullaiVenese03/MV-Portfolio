@@ -1,7 +1,7 @@
 /** Site-wide configuration - override VITE_SITE_URL at build time for production */
 export const SITE_URL =
   (import.meta.env.VITE_SITE_URL as string | undefined)?.replace(/\/$/, "") ||
-  "https://mullaivenese03.github.io/MV-Portfolio";
+  "https://mullai-venese.web.app";
 
 export const SITE = {
   name: "Mullai Venese",
@@ -14,7 +14,7 @@ export const SITE = {
   phone: "+91 86374 08125",
   location: "India",
   twitterHandle: "@mullai.dev",
-  ogImage: `${SITE_URL}/og-image.svg`,
+  ogImage: `${SITE_URL}/og-image.png`,
   themeColor: {
     light: "#2563EB",
     dark: "#3B82F6",
