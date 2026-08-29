@@ -21,6 +21,7 @@ export function Contact({ darkMode }: ContactProps) {
     message: useId(),
   };
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
+  const [gotcha, setGotcha] = useState("");
   const [errors, setErrors] = useState<{ name?: string; email?: string; subject?: string; message?: string }>({});
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
@@ -30,7 +31,7 @@ export function Contact({ darkMode }: ContactProps) {
 
   // Snapshot form values at validation time so the 0.85s plane animation delay
   // doesn't cause a stale closure to send outdated field data
-  const pendingFormRef = useRef<{ name: string; email: string; subject: string; message: string } | null>(null);
+  const pendingFormRef = useRef<{ name: string; email: string; subject: string; message: string; gotcha: string } | null>(null);
 
   const c = themeVars;
 
@@ -57,7 +58,7 @@ export function Contact({ darkMode }: ContactProps) {
     setErrors({});
     // Snapshot current values NOW (before animation plays) so handleFlightComplete
     // always sends the correct data regardless of any re-renders during the delay
-    pendingFormRef.current = { ...form };
+    pendingFormRef.current = { ...form, gotcha };
     return true;
   };
 
@@ -73,6 +74,7 @@ export function Contact({ darkMode }: ContactProps) {
     data.append("email", snapshot.email);
     data.append("subject", snapshot.subject);
     data.append("message", snapshot.message);
+    data.append("_gotcha", snapshot.gotcha);
 
     // useSubmit returns the result directly — no stale state, no ref workarounds needed
     const result = await fsSubmit(data);
@@ -236,6 +238,29 @@ export function Contact({ darkMode }: ContactProps) {
                 </div>
               ) : (
                 <form onSubmit={(e) => e.preventDefault()} className="flex flex-col gap-5" noValidate>
+                  {/* Formspree honeypot spam protection (visually hidden, excluded from tab navigation) */}
+                  <input
+                    type="text"
+                    name="_gotcha"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                    value={gotcha}
+                    onChange={(e) => setGotcha(e.target.value)}
+                    style={{
+                      position: "absolute",
+                      width: "1px",
+                      height: "1px",
+                      padding: 0,
+                      margin: "-1px",
+                      overflow: "hidden",
+                      clip: "rect(0, 0, 0, 0)",
+                      whiteSpace: "nowrap",
+                      border: 0,
+                      opacity: 0,
+                      pointerEvents: "none",
+                    }}
+                  />
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
                       <label htmlFor={fieldIds.name} style={{ fontFamily: FONT, fontSize: "13px", fontWeight: 600, color: c.body }}>Your Name</label>

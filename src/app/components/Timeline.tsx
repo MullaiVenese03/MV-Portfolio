@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useMotionValueEvent, useReducedMotion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { badgeStyle, FONT, FONT_DISPLAY, themeVars } from "../theme";
 
 const timelineItems = [
@@ -66,6 +66,8 @@ const sortedTimelineItems = [...timelineItems].sort(
 );
 
 const TOTAL_ITEMS = sortedTimelineItems.length;
+const WHEEL_THRESHOLD = 30;
+const TRANSITION_LOCK_MS = 380;
 
 function useResponsiveOffset() {
   const [screenSize, setScreenSize] = useState<"mobile" | "tablet" | "desktop">("desktop");
@@ -161,28 +163,265 @@ export function Timeline() {
   const isMobile = screenSize === "mobile";
 
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [activeCardIndex, setActiveCardIndex] = useState<number>(TOTAL_ITEMS - 1);
+  const [activeCardIndex, setActiveCardIndex] = useState<number>(0);
 
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end end"],
-  });
+  const activeCardIndexRef = useRef(activeCardIndex);
+  activeCardIndexRef.current = activeCardIndex;
 
-  // Driven by section scroll progress
-  useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    if (!shouldReduceMotion) {
-      const scrollIndex = Math.min(
-        Math.floor(latest * TOTAL_ITEMS),
-        TOTAL_ITEMS - 1
-      );
-      if (scrollIndex !== activeCardIndex) {
-        setActiveCardIndex(scrollIndex);
+  const isTransitioningRef = useRef(false);
+  const gestureActiveRef = useRef(false);
+  const wheelAccumulatorRef = useRef(0);
+  const gestureEndTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const transitionTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const readyToExitDownRef = useRef(false);
+  const readyToExitUpRef = useRef(false);
+
+  // Controlled wheel gesture handler - strictly advances 1 card per intentional gesture
+  useEffect(() => {
+    if (shouldReduceMotion) return;
+
+    const sectionEl = sectionRef.current;
+    if (!sectionEl) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      const rect = sectionEl.getBoundingClientRect();
+      const isSticky = rect.top <= 15 && rect.bottom >= window.innerHeight - 15;
+
+      if (!isSticky) {
+        return;
       }
-    }
-  });
+
+      const delta = e.deltaY;
+      if (Math.abs(delta) < 2) return;
+
+      const isDown = delta > 0;
+      const currentIndex = activeCardIndexRef.current;
+
+      // Reset gesture decay timer on every incoming wheel event
+      if (gestureEndTimerRef.current) {
+        clearTimeout(gestureEndTimerRef.current);
+      }
+      gestureEndTimerRef.current = setTimeout(() => {
+        gestureActiveRef.current = false;
+        wheelAccumulatorRef.current = 0;
+
+        // When the user has settled on the final card and stopped scrolling,
+        // arm readyToExitDown so the NEXT separate gesture releases page scroll.
+        if (activeCardIndexRef.current === TOTAL_ITEMS - 1) {
+          readyToExitDownRef.current = true;
+        }
+        // When the user has settled on the first card and stopped scrolling,
+        // arm readyToExitUp so the NEXT separate gesture releases page scroll.
+        if (activeCardIndexRef.current === 0) {
+          readyToExitUpRef.current = true;
+        }
+      }, 180);
+
+      // If a transition is currently animating or inside an active gesture stream:
+      if (isTransitioningRef.current || gestureActiveRef.current) {
+        // Prevent scroll momentum from skipping cards or jumping while sticky
+        e.preventDefault();
+        return;
+      }
+
+      // Accumulate wheel delta
+      wheelAccumulatorRef.current += delta;
+
+      if (Math.abs(wheelAccumulatorRef.current) >= WHEEL_THRESHOLD) {
+        if (isDown) {
+          readyToExitUpRef.current = false;
+
+          if (currentIndex < TOTAL_ITEMS - 1) {
+            e.preventDefault();
+            gestureActiveRef.current = true;
+            isTransitioningRef.current = true;
+            wheelAccumulatorRef.current = 0;
+            readyToExitDownRef.current = false;
+
+            const nextIndex = currentIndex + 1;
+            activeCardIndexRef.current = nextIndex;
+            setActiveCardIndex(nextIndex);
+
+            if (transitionTimerRef.current) clearTimeout(transitionTimerRef.current);
+            transitionTimerRef.current = setTimeout(() => {
+              isTransitioningRef.current = false;
+            }, TRANSITION_LOCK_MS);
+          } else {
+            // Currently on the final card (TOTAL_ITEMS - 1)
+            if (readyToExitDownRef.current) {
+              // User performed a subsequent intentional gesture AFTER the final card settled
+              // Allow page scroll down to next section
+              wheelAccumulatorRef.current = 0;
+            } else {
+              // Keep final card locked and fully visible during the current arrival stream
+              e.preventDefault();
+              gestureActiveRef.current = true;
+              wheelAccumulatorRef.current = 0;
+            }
+          }
+        } else {
+          // Scrolling UP
+          readyToExitDownRef.current = false;
+
+          if (currentIndex > 0) {
+            e.preventDefault();
+            gestureActiveRef.current = true;
+            isTransitioningRef.current = true;
+            wheelAccumulatorRef.current = 0;
+            readyToExitUpRef.current = false;
+
+            const prevIndex = currentIndex - 1;
+            activeCardIndexRef.current = prevIndex;
+            setActiveCardIndex(prevIndex);
+
+            if (transitionTimerRef.current) clearTimeout(transitionTimerRef.current);
+            transitionTimerRef.current = setTimeout(() => {
+              isTransitioningRef.current = false;
+            }, TRANSITION_LOCK_MS);
+          } else {
+            // Currently on the first card (0)
+            if (readyToExitUpRef.current) {
+              // User performed a subsequent intentional gesture AFTER the first card settled
+              // Allow page scroll up to previous section
+              wheelAccumulatorRef.current = 0;
+            } else {
+              // Keep first card locked and fully visible during the current arrival stream
+              e.preventDefault();
+              gestureActiveRef.current = true;
+              wheelAccumulatorRef.current = 0;
+            }
+          }
+        }
+      }
+    };
+
+    window.addEventListener("wheel", handleWheel, { passive: false });
+
+    return () => {
+      window.removeEventListener("wheel", handleWheel);
+      if (gestureEndTimerRef.current) clearTimeout(gestureEndTimerRef.current);
+      if (transitionTimerRef.current) clearTimeout(transitionTimerRef.current);
+    };
+  }, [shouldReduceMotion]);
+
+  // Touch gesture support on mobile devices
+  useEffect(() => {
+    if (shouldReduceMotion) return;
+
+    const sectionEl = sectionRef.current;
+    if (!sectionEl) return;
+
+    let touchStartY = 0;
+    let isTouchActive = false;
+
+    const handleTouchStart = (e: TouchEvent) => {
+      const rect = sectionEl.getBoundingClientRect();
+      const isSticky = rect.top <= 15 && rect.bottom >= window.innerHeight - 15;
+      if (!isSticky) return;
+
+      touchStartY = e.touches[0].clientY;
+      isTouchActive = true;
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!isTouchActive || isTransitioningRef.current) return;
+
+      const rect = sectionEl.getBoundingClientRect();
+      const isSticky = rect.top <= 15 && rect.bottom >= window.innerHeight - 15;
+      if (!isSticky) return;
+
+      const currentY = e.touches[0].clientY;
+      const diffY = touchStartY - currentY; // positive = swipe up (scroll down)
+      const TOUCH_THRESHOLD = 45;
+
+      if (Math.abs(diffY) >= TOUCH_THRESHOLD) {
+        const isDown = diffY > 0;
+        const currentIndex = activeCardIndexRef.current;
+
+        if (isDown) {
+          readyToExitUpRef.current = false;
+
+          if (currentIndex < TOTAL_ITEMS - 1) {
+            if (e.cancelable) e.preventDefault();
+            isTransitioningRef.current = true;
+            touchStartY = currentY;
+            readyToExitDownRef.current = false;
+
+            const nextIndex = currentIndex + 1;
+            activeCardIndexRef.current = nextIndex;
+            setActiveCardIndex(nextIndex);
+
+            if (transitionTimerRef.current) clearTimeout(transitionTimerRef.current);
+            transitionTimerRef.current = setTimeout(() => {
+              isTransitioningRef.current = false;
+              if (nextIndex === TOTAL_ITEMS - 1) {
+                readyToExitDownRef.current = true;
+              }
+            }, TRANSITION_LOCK_MS);
+          } else {
+            // On final card
+            if (readyToExitDownRef.current) {
+              // Allow native page scroll
+            } else {
+              if (e.cancelable) e.preventDefault();
+              readyToExitDownRef.current = true;
+            }
+          }
+        } else {
+          // Swipe down (scroll up)
+          readyToExitDownRef.current = false;
+
+          if (currentIndex > 0) {
+            if (e.cancelable) e.preventDefault();
+            isTransitioningRef.current = true;
+            touchStartY = currentY;
+            readyToExitUpRef.current = false;
+
+            const prevIndex = currentIndex - 1;
+            activeCardIndexRef.current = prevIndex;
+            setActiveCardIndex(prevIndex);
+
+            if (transitionTimerRef.current) clearTimeout(transitionTimerRef.current);
+            transitionTimerRef.current = setTimeout(() => {
+              isTransitioningRef.current = false;
+              if (prevIndex === 0) {
+                readyToExitUpRef.current = true;
+              }
+            }, TRANSITION_LOCK_MS);
+          } else {
+            // On first card
+            if (readyToExitUpRef.current) {
+              // Allow native page scroll
+            } else {
+              if (e.cancelable) e.preventDefault();
+              readyToExitUpRef.current = true;
+            }
+          }
+        }
+      }
+    };
+
+    const handleTouchEnd = () => {
+      isTouchActive = false;
+    };
+
+    window.addEventListener("touchstart", handleTouchStart, { passive: true });
+    window.addEventListener("touchmove", handleTouchMove, { passive: false });
+    window.addEventListener("touchend", handleTouchEnd, { passive: true });
+
+    return () => {
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("touchend", handleTouchEnd);
+    };
+  }, [shouldReduceMotion]);
 
   const handleCardClick = (index: number) => {
+    activeCardIndexRef.current = index;
     setActiveCardIndex(index);
+    readyToExitDownRef.current = index === TOTAL_ITEMS - 1;
+    readyToExitUpRef.current = index === 0;
   };
 
   // Responsive vertical offset so EVERY stacked card exposes its category tag + year clearly
@@ -277,7 +516,7 @@ export function Timeline() {
 
       <style>{`
         .journey-scroll-area {
-          height: calc(100vh + ${TOTAL_ITEMS * 15}vh);
+          height: calc(100vh + ${TOTAL_ITEMS * 60}vh);
           position: relative;
           box-sizing: border-box;
         }

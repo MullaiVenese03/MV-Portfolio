@@ -10,7 +10,7 @@ type MetaInput = {
 };
 
 function upsertMeta(
-  attribute: "name" | "property",
+  attribute: "name" | "property" | "itemprop",
   key: string,
   content: string,
 ) {
@@ -67,8 +67,18 @@ export function applyDocumentMeta({
   upsertMeta("property", "og:locale", SITE.locale);
   if (imageUrl) {
     upsertMeta("property", "og:image", imageUrl);
+    upsertMeta("property", "og:image:secure_url", imageUrl);
     upsertMeta("property", "og:image:alt", title);
+    if (!image) {
+      upsertMeta("property", "og:image:width", "1200");
+      upsertMeta("property", "og:image:height", "630");
+      upsertMeta("property", "og:image:type", "image/png");
+    }
   }
+
+  const squareUrl = absoluteUrl(SITE.ogSquareImage);
+  upsertMeta("itemprop", "image", squareUrl);
+  upsertLink("image_src", squareUrl);
 
   upsertMeta("name", "twitter:card", "summary_large_image");
   upsertMeta("name", "twitter:title", title);

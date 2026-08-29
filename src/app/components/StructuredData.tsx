@@ -26,6 +26,8 @@ export function PersonStructuredData() {
       url: absoluteUrl("/"),
       email: SITE.email,
       jobTitle: "Front-End Developer & UI/UX Designer",
+      image: absoluteUrl(SITE.ogSquareImage),
+      logo: absoluteUrl(SITE.ogSquareImage),
       address: {
         "@type": "PostalAddress",
         addressCountry: SITE.location,

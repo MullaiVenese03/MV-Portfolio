@@ -1,14 +1,16 @@
 # Dependencies
 node_modules/
+.pnpm-store/
 
 # Build and distribution outputs
 dist/
 dist-ssr/
 
-# Environment files
+# Environment files and credentials
 .env
 .env.local
 .env.*.local
+*.pem
 
 # Cache and build info
 .cache/
@@ -25,7 +27,7 @@ pnpm-debug.log*
 # Testing
 coverage/
 
-# IDE and OS files
+# IDE, OS and Tooling
 .DS_Store
 Thumbs.db
 .idea/
@@ -33,11 +35,15 @@ Thumbs.db
 !.vscode/extensions.json
 *.swp
 *.swo
+.gemini/
+.agents/
 
 # Temporary scratch files
 scratch/
+tmp/
+*.tmp
 
-# Firebase
+# Firebase & Deployment
 .firebase/
 firebase-debug.log
 firestore-debug.log

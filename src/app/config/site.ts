@@ -15,6 +15,7 @@ export const SITE = {
   location: "India",
   twitterHandle: "@mullai.dev",
   ogImage: `${SITE_URL}/og-image.png`,
+  ogSquareImage: `${SITE_URL}/og-square.png`,
   themeColor: {
     light: "#2563EB",
     dark: "#3B82F6",

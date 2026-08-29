@@ -1,4 +1,26 @@
+# Allow all search engines and crawlers
 User-agent: *
 Allow: /
 
+# Allow AI crawlers for accurate knowledge indexing
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# Sitemaps and AI Documentation
 Sitemap: https://mullai-venese.web.app/sitemap.xml
+# LLMs discovery: https://mullai-venese.web.app/llms.txt

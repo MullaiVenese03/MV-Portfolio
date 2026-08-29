@@ -1,0 +1,34 @@
+# Mullai Venese - Front-End Developer & UI/UX Designer
+
+> Official portfolio and project documentation of Mullai Venese, specializing in web development, UI/UX design, brand identity, and interactive web experiences.
+
+## Personal Information
+- **Name:** Mullai Venese
+- **Role:** Front-End Developer & UI/UX Designer
+- **Location:** India
+- **Email:** mullaivenesep@gmail.com
+- **Website:** https://mullai-venese.web.app/
+- **GitHub:** https://github.com/MullaiVenese03
+- **LinkedIn:** https://www.linkedin.com/in/mullaivenesep
+- **Twitter / X:** https://twitter.com/mullai_dev
+
+## Services Offered
+- **Web Design:** UI/UX research, wireframing, high-fidelity Figma prototyping, interactive design systems, and responsive design.
+- **Website Development:** High-performance landing pages, full-stack web applications, custom business websites, deployment, and ongoing maintenance.
+- **Branding & Logo Design:** Brand strategy, visual identity systems, vector logo design, typography curation, brand guidelines, and collateral design.
+
+## Core Technical Skills
+- **Frontend:** React, TypeScript, JavaScript (ES6+), HTML5, CSS3, Tailwind CSS, Vite, Motion / Framer Motion, Lenis Smooth Scroll.
+- **Design & Prototyping:** Figma, UI/UX Research, Design Systems, Vector Graphics, Wireframing.
+- **Full-Stack & Tools:** Node.js, REST APIs, Git / GitHub, Firebase, Formspree, SEO Optimization, Web Performance Optimization.
+
+## Featured Projects
+- [Nebula SafeTech Landing Page](https://mullai-venese.web.app/projects/nebulasafetech-landing-page): High-conversion cybersecurity product landing page with futuristic UI and interactive elements.
+- [Nebula SafeTech Multi-Page Corporate Website](https://mullai-venese.web.app/projects/nebulasafetech-website): Complete multi-page corporate web platform for enterprise security solutions.
+- [NEX Brand Identity & Logo Design](https://mullai-venese.web.app/projects/nex-logo): Minimalist, futuristic geometric logo and identity system for a tech brand.
+- [Nebula SafeTech Brand & Logo Design](https://mullai-venese.web.app/projects/nebulasafetech-logo): Trust-oriented, modern security logo and visual brand guidelines.
+
+## Quick Links
+- [Home & Portfolio Overview](https://mullai-venese.web.app/): Interactive developer portfolio with 3D stacked services, interactive timeline, and project estimation engine.
+- [Projects Gallery](https://mullai-venese.web.app/projects): Complete gallery of design and development case studies.
+- [Sitemap](https://mullai-venese.web.app/sitemap.xml): Search engine XML sitemap.

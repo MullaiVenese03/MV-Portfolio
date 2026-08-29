@@ -1,0 +1,59 @@
+# Mullai Venese — Full Portfolio Knowledge Base
+
+## About Mullai Venese
+Mullai Venese is a Front-End Developer and UI/UX Designer dedicated to building high-performance, aesthetically refined, and accessible digital products. With deep expertise across design systems, modern web engineering, and brand identity, Mullai bridges the gap between vision and pixel-perfect execution.
+
+## Contact & Links
+- Website: https://mullai-venese.web.app/
+- Email: mullaivenesep@gmail.com
+- Phone: +91 86374 08125
+- GitHub: https://github.com/MullaiVenese03
+- LinkedIn: https://www.linkedin.com/in/mullaivenesep
+- Twitter / X: https://twitter.com/mullai_dev
+
+## Services & Expertise
+
+### 1. Web Design
+- User Research & Journey Mapping
+- Wireframing & Interactive Prototyping
+- High-Fidelity UI/UX Design in Figma
+- Design Systems, Component Libraries, and Style Guides
+- Mobile-First & Responsive Layout Architecture
+
+### 2. Website Development
+- Modern Frontend Architectures: React 18, TypeScript, Vite
+- Smooth Animations & Micro-Interactions: Framer Motion, Lenis Smooth Scroll
+- Performance Optimization & Core Web Vitals
+- SEO Optimization, Schema.org Structured Data, and Open Graph Standards
+- Custom Estimator Engines & Contact Automations via Formspree
+
+### 3. Branding & Logo Design
+- Comprehensive Brand Strategy & Visual Direction
+- Geometric & Modern Logo Design
+- Color Palettes, Typography Systems, and Brand Asset Kits
+
+## Case Studies & Featured Work
+
+### 1. Nebula SafeTech Landing Page
+- Category: Web Development & UI/UX Design
+- Slug: nebulasafetech-landing-page
+- Live URL: https://mullai-venese.web.app/projects/nebulasafetech-landing-page
+- Overview: A high-conversion, futuristic cybersecurity product landing page with dynamic UI elements and seamless user journeys.
+
+### 2. Nebula SafeTech Corporate Website
+- Category: Web Development
+- Slug: nebulasafetech-website
+- Live URL: https://mullai-venese.web.app/projects/nebulasafetech-website
+- Overview: Enterprise-level multi-page corporate website for an AI-driven security provider, featuring responsive layouts, case studies, and fast load times.
+
+### 3. NEX Brand Identity & Logo
+- Category: Branding & Logo Design
+- Slug: nex-logo
+- Live URL: https://mullai-venese.web.app/projects/nex-logo
+- Overview: Minimalist, futuristic geometric brand identity for next-generation technology ventures.
+
+### 4. Nebula SafeTech Logo
+- Category: Branding & Logo Design
+- Slug: nebulasafetech-logo
+- Live URL: https://mullai-venese.web.app/projects/nebulasafetech-logo
+- Overview: Trust-centered cybersecurity logo blending cloud security and shield symbolism into a cohesive mark.

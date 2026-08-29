@@ -1,0 +1,93 @@
+﻿import type { Question } from "../../lib/estimator/types";
+
+export const brandingQuestions: Question[] = [
+  {
+    id: "what-need",
+    type: "single",
+    question: "What do you need?",
+    required: true,
+    options: [
+      { value: "logo", label: "Logo Design" },
+      { value: "logo-basic-brand", label: "Logo + Basic Brand Identity" },
+      { value: "complete-brand", label: "Complete Brand Identity" },
+      { value: "refresh", label: "Brand Refresh / Redesign" },
+      { value: "not-sure", label: "I\u2019m not sure" },
+    ],
+  },
+  {
+    id: "brand-stage",
+    type: "single",
+    question: "What stage is your brand currently in?",
+    required: true,
+    options: [
+      { value: "new", label: "New Business" },
+      { value: "existing", label: "Existing Business" },
+      { value: "rebranding", label: "Rebranding" },
+      { value: "personal", label: "Personal Brand" },
+      { value: "other", label: "Other" },
+    ],
+  },
+  {
+    id: "brand-materials",
+    type: "multi",
+    question: "What brand materials do you need?",
+    required: true,
+    options: [
+      { value: "logo", label: "Logo" },
+      { value: "colour-palette", label: "Colour Palette" },
+      { value: "typography", label: "Typography" },
+      { value: "brand-guidelines", label: "Brand Guidelines" },
+      { value: "business-card", label: "Business Card" },
+      { value: "social-media", label: "Social Media Assets" },
+      { value: "packaging", label: "Packaging" },
+      { value: "presentation", label: "Presentation Template" },
+      { value: "other", label: "Other" },
+      { value: "not-sure", label: "I\u2019m not sure" },
+    ],
+  },
+  {
+    id: "has-logo",
+    type: "single",
+    question: "Do you already have a logo?",
+    required: true,
+    options: [
+      { value: "yes", label: "Yes" },
+      { value: "no", label: "No" },
+      { value: "old-redesign", label: "I have an old logo that needs redesign" },
+      { value: "not-sure", label: "I\u2019m not sure" },
+    ],
+  },
+  {
+    id: "branding-level",
+    type: "single",
+    question: "What level of branding do you need?",
+    required: true,
+    options: [
+      { value: "basic", label: "Basic" },
+      { value: "custom", label: "Custom" },
+      { value: "premium", label: "Premium" },
+      { value: "strategic", label: "Strategic / Extensive" },
+      { value: "not-sure", label: "I\u2019m not sure" },
+    ],
+  },
+  {
+    id: "has-references",
+    type: "conditional-text",
+    question: "Do you have any visual references or brands you like?",
+    required: true,
+    conditionalTrigger: "yes",
+    conditionalLabel: "Share references or links.",
+    placeholder: "https://example.com, a brand name you admire\u2026",
+    options: [
+      { value: "yes", label: "Yes" },
+      { value: "no", label: "No" },
+    ],
+  },
+  {
+    id: "tell-us",
+    type: "text",
+    question: "Tell me briefly about your brand.",
+    required: false,
+    placeholder: "What does your brand do? What feeling should it convey? Any details\u2026 (optional)",
+  },
+];
